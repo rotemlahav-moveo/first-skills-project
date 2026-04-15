@@ -1,13 +1,16 @@
 import { Route, Routes } from 'react-router-dom';
 import { HomePage } from './home/HomePage';
-import { AuthPlaceholder } from './auth/AuthPlaceholder';
+import { SignInPage } from './auth/SignInPage';
+import { SignUpPage } from './auth/SignUpPage';
+import { ForgotPasswordPage } from './auth/ForgotPasswordPage';
 
 export function App() {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
-      <Route path="/sign-in" element={<AuthPlaceholder title="Sign in" />} />
-      <Route path="/sign-up" element={<AuthPlaceholder title="Sign up" />} />
+      <Route path="/sign-in" element={<SignInPage />} />
+      <Route path="/sign-up" element={<SignUpPage />} />
+      <Route path="/forgot-password" element={<ForgotPasswordPage />} />
     </Routes>
   );
 }

@@ -1,18 +1,36 @@
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { SectionHeading } from '../components/SectionHeading';
+
 export function TestimonialsSection() {
   return (
-    <section className="section" aria-labelledby="testimonials-title">
+    <section className="section" aria-labelledby="stylist-notes-title">
       <div className="container">
-        <h2 id="testimonials-title">What shoppers say</h2>
-        <div className="grid two-col">
-          <blockquote className="quote">
-            "I found a full outfit in minutes instead of browsing for an hour."
-            <cite> Maya, early user</cite>
-          </blockquote>
-          <blockquote className="quote">
-            "The category flow helps me get exactly what I need without
-            distractions."
-            <cite> Daniel, repeat customer</cite>
-          </blockquote>
+        <SectionHeading
+          eyebrow="Stylist notes"
+          title="Why members love this drop"
+          description="Fresh capsules designed for mix-and-match outfits."
+        />
+        <div className="grid two-col testimonial-grid">
+          <Card>
+            <CardHeader>
+              <CardTitle>Color-first matching</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p>
+                Our stylists pair statement colors with neutral staples so each look feels bold but wearable.
+              </p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle>Fit confidence</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p>
+                Save your preferred cuts and sizes once, then get suggestions that match your exact silhouette.
+              </p>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </section>

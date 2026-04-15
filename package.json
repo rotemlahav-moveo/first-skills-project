@@ -18,6 +18,7 @@
     "@swc/cli": "~0.8.0",
     "@swc/core": "~1.15.5",
     "@swc/helpers": "~0.5.18",
+    "@tailwindcss/vite": "^4.2.2",
     "@testing-library/dom": "10.4.0",
     "@testing-library/react": "16.3.0",
     "@types/node": "20.19.9",
@@ -37,6 +38,7 @@
     "jsdom": "~22.1.0",
     "nx": "22.6.5",
     "prettier": "~3.6.2",
+    "tailwindcss": "^4.2.2",
     "tslib": "^2.3.0",
     "typescript": "~5.9.2",
     "typescript-eslint": "^8.40.0",
@@ -44,8 +46,13 @@
     "vitest": "~4.1.0"
   },
   "dependencies": {
+    "@radix-ui/react-slot": "^1.2.4",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.8.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-router-dom": "6.30.3"
+    "react-router-dom": "6.30.3",
+    "tailwind-merge": "^3.5.0"
   }
 }

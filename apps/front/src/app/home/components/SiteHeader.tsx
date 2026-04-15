@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
 
 export function SiteHeader() {
   return (
@@ -10,16 +11,18 @@ export function SiteHeader() {
         <nav aria-label="Main navigation">
           <ul className="nav-list">
             <li>
-              <a href="#features">Features</a>
+              <a href="#collections">Collections</a>
             </li>
             <li>
-              <a href="#how-it-works">How It Works</a>
+              <a href="#moods">How it works</a>
             </li>
             <li>
-              <a href="#pricing">Pricing</a>
+              <a href="#membership">Membership</a>
             </li>
             <li>
-              <Link to="/sign-in">Sign In</Link>
+              <Button asChild variant="outline" size="sm">
+                <Link to="/sign-in">Sign in</Link>
+              </Button>
             </li>
           </ul>
         </nav>

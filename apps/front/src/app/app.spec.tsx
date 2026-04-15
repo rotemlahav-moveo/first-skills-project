@@ -20,11 +20,11 @@ describe('App', () => {
       </BrowserRouter>,
     );
     expect(
-      getByRole('heading', { level: 1, name: /shop smarter, dress better/i }),
+      getByRole('heading', { level: 1, name: /own the look before it sells out/i }),
     ).toBeTruthy();
     expect(
-      getByRole('heading', { level: 2, name: /features built for fast discovery/i }),
+      getByRole('heading', { level: 2, name: /this week's standout picks/i }),
     ).toBeTruthy();
-    expect(getByRole('link', { name: /sign up/i })).toBeTruthy();
+    expect(getByRole('link', { name: /create account/i })).toBeTruthy();
   });
 });

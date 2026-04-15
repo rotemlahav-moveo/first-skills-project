@@ -2,7 +2,7 @@ import { AuthEntrySection } from './sections/AuthEntrySection';
 import { FeaturesSection } from './sections/FeaturesSection';
 import { HeroSection } from './sections/HeroSection';
 import { HowItWorksSection } from './sections/HowItWorksSection';
-import { PricingSection } from './sections/PricingSection';
+import { MembershipSection } from './sections/MembershipSection';
 import { TestimonialsSection } from './sections/TestimonialsSection';
 import { SiteFooter } from './components/SiteFooter';
 import { SiteHeader } from './components/SiteHeader';
@@ -17,7 +17,7 @@ export function HomePage() {
         <FeaturesSection />
         <HowItWorksSection />
         <TestimonialsSection />
-        <PricingSection />
+        <MembershipSection />
         <AuthEntrySection />
       </main>
 

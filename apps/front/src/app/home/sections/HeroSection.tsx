@@ -1,22 +1,28 @@
 import { Link } from 'react-router-dom';
+import { ArrowRight } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 export function HeroSection() {
   return (
-    <section className="hero section">
-      <div className="container">
-        <p className="eyebrow">Discover your next look faster</p>
-        <h1>Shop smarter, dress better, and save time.</h1>
-        <p className="section-intro">
-          Browse curated clothing categories, find the right style quickly, and
-          move from discovery to checkout with less effort.
-        </p>
-        <div className="hero-actions">
-          <a className="button primary" href="#features">
-            Browse categories
-          </a>
-          <Link className="button secondary" to="/sign-up">
-            Create account
-          </Link>
+    <section className="fashion-hero section">
+      <div className="container fashion-hero-layout">
+        <div>
+          <p className="fashion-eyebrow">Trend-forward pieces just dropped</p>
+          <h1>Own the look before it sells out.</h1>
+          <p className="section-intro">
+            Shop vibrant street-to-evening collections with curated edits, rapid
+            delivery, and fits picked for your style profile.
+          </p>
+          <div className="hero-actions">
+            <Button asChild size="lg" className="!text-white hover:!text-white">
+              <Link to="/sign-up">
+                Start shopping <ArrowRight />
+              </Link>
+            </Button>
+            <Button asChild variant="outline" size="lg">
+              <a href="#collections">Browse collections</a>
+            </Button>
+          </div>
         </div>
       </div>
     </section>

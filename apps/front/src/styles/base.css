@@ -1,0 +1,63 @@
+:root {
+  color-scheme: light;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color: #111827;
+  background-color: #f9fafb;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: inherit;
+  background:
+    radial-gradient(circle at 90% 0%, rgba(59, 130, 246, 0.22), transparent 30%),
+    radial-gradient(circle at 10% 0%, rgba(236, 72, 153, 0.2), transparent 25%),
+    #f9fafb;
+}
+
+a {
+  color: inherit;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  color: #0f172a;
+}
+
+h1 {
+  max-width: 14ch;
+  font-size: clamp(2.2rem, 4vw, 3.4rem);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+}
+
+h2 {
+  margin-bottom: 1rem;
+  font-size: clamp(1.6rem, 2.4vw, 2.25rem);
+  line-height: 1.2;
+}
+
+h3 {
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+}
+
+p {
+  margin: 0;
+  color: #334155;
+}
+
+@layer base {
+  body {
+    @apply bg-background text-foreground;
+  }
+}

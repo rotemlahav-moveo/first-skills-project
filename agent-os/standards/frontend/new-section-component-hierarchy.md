@@ -21,3 +21,19 @@ Every newly added UI section must be implemented as a separate component.
 - Is its location consistent with the project hierarchy?
 - Is the parent component cleaner after extraction?
 - Is the section reusable or clearly scoped to a single page?
+
+## Additional Rule: CSS Modularization
+All frontend styles must be split into context-based CSS modules instead of large monolithic files.
+
+## CSS Requirements
+- Keep styles in a dedicated `src/styles/` directory with focused files (for example: `base.css`, `layout.css`, `home.css`, `auth.css`, `responsive.css`, `theme.css`).
+- Use a single stylesheet entrypoint (for example `src/styles/index.css`) that imports the modular CSS files in a predictable order.
+- Import only the stylesheet entrypoint from application code (for example from `main.tsx`).
+- When migrating styles from legacy large files, move all selectors first, then delete the large files.
+- Do not leave dead stylesheet references in HTML or code after migration.
+
+## CSS Checklist
+- Are styles split by context instead of grouped in one large file?
+- Is there exactly one active CSS entrypoint import for app styles?
+- Were legacy style files removed after successful migration?
+- Were build and lint checks run after the stylesheet split?

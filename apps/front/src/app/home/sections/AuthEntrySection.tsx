@@ -1,21 +1,21 @@
 import { Link } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
 
 export function AuthEntrySection() {
   return (
     <section className="section auth-entry" aria-labelledby="auth-entry-title">
       <div className="container">
-        <h2 id="auth-entry-title">Ready to find your next outfit?</h2>
+        <h2 id="auth-entry-title">Create your account and unlock member-only edits</h2>
         <p className="section-intro">
-          Create an account to save your preferences and speed up future
-          shopping.
+          Join now to save your picks, sync your style profile, and track every drop.
         </p>
         <div className="hero-actions">
-          <Link className="button primary" to="/sign-up">
-            Sign up
-          </Link>
-          <Link className="button secondary" to="/sign-in">
-            Sign in
-          </Link>
+          <Button asChild size="lg" className="!text-white hover:!text-white">
+            <Link to="/sign-up">Create account</Link>
+          </Button>
+          <Button asChild variant="outline" size="lg">
+            <Link to="/sign-in">Sign in</Link>
+          </Button>
         </div>
       </div>
     </section>
