@@ -13,14 +13,18 @@ describe('App', () => {
     expect(baseElement).toBeTruthy();
   });
 
-  it('should have a greeting as the title', () => {
-    const { getAllByText } = render(
+  it('should render homepage marketing sections', () => {
+    const { getByRole } = render(
       <BrowserRouter>
         <App />
       </BrowserRouter>,
     );
     expect(
-      getAllByText(new RegExp('Welcome front', 'gi')).length > 0,
+      getByRole('heading', { level: 1, name: /shop smarter, dress better/i }),
     ).toBeTruthy();
+    expect(
+      getByRole('heading', { level: 2, name: /features built for fast discovery/i }),
+    ).toBeTruthy();
+    expect(getByRole('link', { name: /sign up/i })).toBeTruthy();
   });
 });

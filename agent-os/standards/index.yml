@@ -1,2 +1,8 @@
 # Agent OS Standards Index
 
+standards:
+  - id: frontend/new-section-component-hierarchy
+    title: New Section Component Hierarchy
+    path: frontend/new-section-component-hierarchy.md
+    summary: Every new UI section must be extracted into a separate component and placed with clear architecture and hierarchy.
+
