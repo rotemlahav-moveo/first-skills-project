@@ -1,0 +1,222 @@
+.fashion-hero {
+  padding-top: 5.5rem;
+}
+
+.hero {
+  background: linear-gradient(180deg, #eff6ff 0%, #ffffff 100%);
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.fashion-hero-layout {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.eyebrow {
+  margin: 0 0 0.75rem;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #1d4ed8;
+}
+
+.fashion-eyebrow {
+  margin: 0 0 0.8rem;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #7c3aed;
+}
+
+.section-intro {
+  margin-top: 1.1rem;
+  max-width: 62ch;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-top: 1.6rem;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 0.7rem 1.2rem;
+  border: 1px solid transparent;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.button.primary {
+  background: #1d4ed8;
+  color: #ffffff;
+}
+
+.button.secondary {
+  border-color: #cbd5e1;
+  color: #0f172a;
+  background: #ffffff;
+}
+
+.hero-highlight-card {
+  border-radius: 1rem;
+  padding: 1.4rem;
+  background: linear-gradient(135deg, #f5d0fe 0%, #dbeafe 45%, #fef3c7 100%);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  box-shadow: 0 20px 35px -25px rgba(15, 23, 42, 0.4);
+}
+
+.hero-highlight-label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #6b21a8;
+  margin-bottom: 0.6rem;
+  font-weight: 700;
+}
+
+.hero-highlight-card ul {
+  margin: 1rem 0 0;
+  padding-left: 1.1rem;
+  display: grid;
+  gap: 0.45rem;
+  color: #1f2937;
+}
+
+.fashion-section-heading {
+  margin-bottom: 1.35rem;
+}
+
+.fashion-section-heading-center {
+  text-align: center;
+}
+
+.fashion-section-description {
+  max-width: 62ch;
+}
+
+.product-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.product-card {
+  overflow: hidden;
+  border-radius: 1rem;
+}
+
+.product-swatch {
+  height: 110px;
+}
+
+.product-card [data-slot="card-content"] {
+  display: grid;
+  gap: 0.45rem;
+  padding-top: 1rem;
+}
+
+.product-category {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #6b7280;
+}
+
+.product-price {
+  font-weight: 700;
+  color: #111827;
+}
+
+.mood-section {
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.mood-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.mood-list li {
+  border: 1px solid #d1d5db;
+  border-radius: 999px;
+  padding: 0.5rem 0.9rem;
+  color: #1f2937;
+  background: #ffffff;
+}
+
+.grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.three-col {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.two-col {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.card {
+  padding: 1.2rem;
+  border-radius: 14px;
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+}
+
+.alt-section {
+  background: rgba(241, 245, 249, 0.86);
+}
+
+.steps {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 1rem;
+}
+
+.steps li {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 1.1rem;
+}
+
+.quote {
+  margin: 0;
+  padding: 1.2rem;
+  border-left: 4px solid #1d4ed8;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #1e293b;
+}
+
+.quote cite {
+  display: block;
+  margin-top: 0.7rem;
+  color: #64748b;
+  font-style: normal;
+}
+
+.benefits-grid article svg {
+  margin-bottom: 0.8rem;
+  color: #4f46e5;
+}
+
+.testimonial-grid p {
+  color: #1f2937;
+}
