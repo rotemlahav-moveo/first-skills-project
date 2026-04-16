@@ -7,7 +7,7 @@ export function SiteFooter() {
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
           <div>
             <div className="mb-6 flex h-6 w-[160px] items-center justify-center bg-gray-900">
-              <span className="text-xs text-white">FirstSkills Fashion</span>
+              <span className="text-xs text-white">SnapStyle</span>
             </div>
             <p className="text-sm text-gray-600">Quality fashion for everyone.</p>
           </div>
@@ -68,7 +68,7 @@ export function SiteFooter() {
         </div>
 
         <div className="mt-16 flex flex-col items-center justify-between gap-4 border-t border-gray-300 pt-8 text-center md:flex-row md:text-left">
-          <p className="text-sm text-gray-600">© 2026 FirstSkills Fashion. All rights reserved.</p>
+          <p className="text-sm text-gray-600">© 2026 SnapStyle Fashion. All rights reserved.</p>
           <div className="flex gap-6">
             <a href="#" className="text-sm text-gray-600 hover:text-gray-900">
               Privacy Policy

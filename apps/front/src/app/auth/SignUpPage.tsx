@@ -7,7 +7,7 @@ export function SignUpPage() {
   return (
     <AuthLayout
       title="Create Account"
-      subtitle="Join FirstSkills Fashion to start shopping and saving your favorites."
+      subtitle="Join SnapStyle Fashion to start shopping and saving your favorites."
     >
       <AuthFormCard
         title="Create account"

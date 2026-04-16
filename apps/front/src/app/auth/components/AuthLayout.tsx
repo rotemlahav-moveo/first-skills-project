@@ -14,7 +14,7 @@ export function AuthLayout({ title, subtitle, children }: AuthLayoutProps) {
         <div className="mb-8 text-center">
           <Link to="/" className="mb-4 inline-flex items-center justify-center text-gray-900">
             <div className="flex h-8 w-[200px] items-center justify-center bg-gray-900">
-              <span className="text-sm text-white">FirstSkills Fashion</span>
+              <span className="text-sm text-white">SnapStyle</span>
             </div>
           </Link>
           <h1 className="mb-3 max-w-none text-3xl text-gray-900 md:text-4xl">{title}</h1>

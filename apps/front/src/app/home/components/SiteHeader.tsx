@@ -7,7 +7,7 @@ export function SiteHeader() {
       <div className="mx-auto flex w-full max-w-[1440px] items-center gap-6 px-8 py-4">
         <Link to="/" className="text-gray-900">
           <div className="flex h-8 w-[200px] items-center justify-center bg-gray-900">
-            <span className="text-sm text-white">FirstSkills Fashion</span>
+            <span className="text-sm text-white">SnapStyle</span>
           </div>
         </Link>
 
