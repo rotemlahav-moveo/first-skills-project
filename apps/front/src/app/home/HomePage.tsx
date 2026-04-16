@@ -12,7 +12,7 @@ export function HomePage() {
     <>
       <SiteHeader />
 
-      <main>
+      <main className="bg-white">
         <HeroSection />
         <FeaturesSection />
         <HowItWorksSection />

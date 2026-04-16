@@ -1,3 +1,11 @@
+# Standards for Cart Page
+
+The following standards apply to this work.
+
+---
+
+## frontend/new-section-component-hierarchy
+
 # frontend/new-section-component-hierarchy
 
 ## Rule

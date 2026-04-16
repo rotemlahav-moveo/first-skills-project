@@ -1,25 +1,26 @@
-import { ProductCard } from '../components/ProductCard';
 import { SectionHeading } from '../components/SectionHeading';
 
-const featuredProducts = [
-  { name: 'Neon Drift Jacket', category: 'Outerwear', price: '$128', accent: 'linear-gradient(135deg,#ff6b6b,#ff8e53)' },
-  { name: 'Pulse Pleat Skirt', category: 'Bottoms', price: '$84', accent: 'linear-gradient(135deg,#8b5cf6,#ec4899)' },
-  { name: 'Daylight Knit Set', category: 'Matching Set', price: '$142', accent: 'linear-gradient(135deg,#22d3ee,#818cf8)' },
-  { name: 'Metro Runner Sneaker', category: 'Footwear', price: '$98', accent: 'linear-gradient(135deg,#f59e0b,#ef4444)' },
+const categories = [
+  { name: 'Women', slug: 'women' },
+  { name: 'Men', slug: 'men' },
+  { name: 'Accessories', slug: 'accessories' },
+  { name: 'Sale', slug: 'sale' },
 ];
 
 export function FeaturesSection() {
   return (
-    <section className="section" id="collections" aria-labelledby="collections-title">
-      <div className="container">
+    <section className="border-b border-gray-300 py-16 md:py-24" id="collections" aria-labelledby="collections-title">
+      <div className="mx-auto w-full max-w-[1440px] px-8">
         <SectionHeading
-          eyebrow="Curated collection"
-          title="Explore our collections"
-          description="Shop by Category"
+          title="Shop by Category"
+          description="Find your next look by browsing our most popular categories."
         />
-        <div className="product-grid">
-          {featuredProducts.map((item) => (
-            <ProductCard key={item.name} {...item} />
+        <div className="grid grid-cols-2 gap-4 md:gap-6 lg:grid-cols-4">
+          {categories.map((category) => (
+            <a key={category.slug} href="#featured-products" className="group">
+              <div className="mb-4 aspect-square border border-gray-300 bg-gray-200 transition-colors group-hover:bg-gray-300" />
+              <h3 className="text-center text-gray-900">{category.name}</h3>
+            </a>
           ))}
         </div>
       </div>
