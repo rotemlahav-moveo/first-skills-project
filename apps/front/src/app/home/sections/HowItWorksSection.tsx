@@ -1,32 +1,29 @@
+import { ArrowRight } from 'lucide-react';
+import { ProductCard } from '../components/ProductCard';
 import { SectionHeading } from '../components/SectionHeading';
 
-const moods = [
-  'Weekend Street',
-  'Office Statement',
-  'Party Ready',
-  'Minimal Essentials',
-  'Resort Layers',
-  'Monochrome Icons',
+const featuredProducts = [
+  { name: 'Product Name 1', category: 'Featured', price: '$89.99', accent: '#e5e7eb' },
+  { name: 'Product Name 2', category: 'Featured', price: '$129.99', accent: '#d1d5db' },
+  { name: 'Product Name 3', category: 'Featured', price: '$69.99', accent: '#e5e7eb' },
+  { name: 'Product Name 4', category: 'Featured', price: '$149.99', accent: '#d1d5db' },
 ];
 
 export function HowItWorksSection() {
   return (
-    <section
-      className="section mood-section"
-      id="moods"
-      aria-labelledby="moods-title"
-    >
-      <div className="container">
-        <SectionHeading
-          eyebrow="Shop by vibe"
-          title="Pick a mood, get a full look"
-          description="Jump into pre-styled outfits built around your moment."
-        />
-        <ul className="mood-list">
-          {moods.map((mood) => (
-            <li key={mood}>{mood}</li>
+    <section className="border-b border-gray-300 py-16 md:py-24" id="featured-products" aria-labelledby="products-title">
+      <div className="mx-auto w-full max-w-[1440px] px-8">
+        <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
+          <SectionHeading title="Featured Products" />
+          <a href="#membership" className="inline-flex items-center gap-2 text-gray-700 hover:text-gray-900">
+            View All <ArrowRight className="h-4 w-4" />
+          </a>
+        </div>
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+          {featuredProducts.map((item) => (
+            <ProductCard key={item.name} {...item} />
           ))}
-        </ul>
+        </div>
       </div>
     </section>
   );

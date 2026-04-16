@@ -3,6 +3,7 @@ import { HomePage } from './home/HomePage';
 import { SignInPage } from './auth/SignInPage';
 import { SignUpPage } from './auth/SignUpPage';
 import { ForgotPasswordPage } from './auth/ForgotPasswordPage';
+import { CartPage } from './cart/CartPage';
 
 export function App() {
   return (
@@ -11,6 +12,7 @@ export function App() {
       <Route path="/sign-in" element={<SignInPage />} />
       <Route path="/sign-up" element={<SignUpPage />} />
       <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+      <Route path="/cart" element={<CartPage />} />
     </Routes>
   );
 }

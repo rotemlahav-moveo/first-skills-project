@@ -9,22 +9,18 @@ type AuthLayoutProps = {
 
 export function AuthLayout({ title, subtitle, children }: AuthLayoutProps) {
   return (
-    <main className="auth-page">
-      <div className="container auth-layout">
-        <section className="auth-brand-panel" aria-label="Brand highlights">
-          <Link className="auth-brand-link" to="/">
-            FirstSkills Fashion
+    <main className="flex min-h-screen items-center justify-center px-8 py-16">
+      <div className="w-full max-w-md">
+        <div className="mb-8 text-center">
+          <Link to="/" className="mb-4 inline-flex items-center justify-center text-gray-900">
+            <div className="flex h-8 w-[200px] items-center justify-center bg-gray-900">
+              <span className="text-sm text-white">FirstSkills Fashion</span>
+            </div>
           </Link>
-          <p className="auth-eyebrow">Spring Edit 2026</p>
-          <h1>{title}</h1>
-          <p>{subtitle}</p>
-          <ul className="auth-brand-list">
-            <li>Style recommendations tuned to your taste</li>
-            <li>Drop alerts for trending collections</li>
-            <li>Fast checkout with saved preferences</li>
-          </ul>
-        </section>
-        <section className="auth-form-panel">{children}</section>
+          <h1 className="mb-3 max-w-none text-3xl text-gray-900 md:text-4xl">{title}</h1>
+          <p className="text-gray-600">{subtitle}</p>
+        </div>
+        <section>{children}</section>
       </div>
     </main>
   );

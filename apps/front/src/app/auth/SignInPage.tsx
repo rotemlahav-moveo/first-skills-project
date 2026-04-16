@@ -8,26 +8,26 @@ import { AuthLayout } from './components/AuthLayout';
 export function SignInPage() {
   return (
     <AuthLayout
-      title="Welcome back to your style feed."
-      subtitle="Sign in to continue discovering curated looks from your favorite brands."
+      title="Sign In"
+      subtitle="Welcome back! Sign in to your account to continue."
     >
       <AuthFormCard
         title="Sign in"
         description="Use your email and password to access your account."
         submitLabel="Sign in"
-        footerText="New to FirstSkills Fashion?"
-        footerLinkLabel="Create an account"
+        footerText="Don't have an account?"
+        footerLinkLabel="Create one"
         footerLinkTo="/sign-up"
       >
-        <form className="auth-form" onSubmit={(event) => event.preventDefault()}>
-          <div className="auth-form-field">
+        <form className="grid gap-6" onSubmit={(event) => event.preventDefault()}>
+          <div className="grid gap-2">
             <Label htmlFor="sign-in-email">Email address</Label>
             <Input id="sign-in-email" placeholder="you@example.com" type="email" required />
           </div>
-          <div className="auth-form-field">
-            <div className="auth-form-row">
+          <div className="grid gap-2">
+            <div className="flex items-center justify-between gap-4">
               <Label htmlFor="sign-in-password">Password</Label>
-              <Link className="auth-inline-link" to="/forgot-password">
+              <Link className="text-sm text-gray-700 hover:text-gray-900 hover:underline" to="/forgot-password">
                 Forgot password?
               </Link>
             </div>

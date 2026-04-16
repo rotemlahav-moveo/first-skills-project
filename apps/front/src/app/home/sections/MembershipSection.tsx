@@ -1,31 +1,26 @@
-import { Sparkles, Truck, WandSparkles } from 'lucide-react';
+import { Card, CardContent } from '@/components/ui/card';
 import { SectionHeading } from '../components/SectionHeading';
 
 export function MembershipSection() {
+  const testimonials = [
+    { name: 'Customer A', quote: 'Great quality and fast shipping!' },
+    { name: 'Customer B', quote: 'Love the selection and prices.' },
+    { name: 'Customer C', quote: 'Best online fashion store!' },
+  ];
+
   return (
-    <section className="section alt-section" id="membership" aria-labelledby="membership-title">
-      <div className="container">
-        <SectionHeading
-          eyebrow="Membership"
-          title="Perks built for frequent shoppers"
-          description="Get extra value with fast shipping and early trend access."
-        />
-        <div className="grid three-col benefits-grid">
-          <article className="card">
-            <Sparkles aria-hidden />
-            <h3>Early access drops</h3>
-            <p>Preview weekly collections before public launch.</p>
-          </article>
-          <article className="card">
-            <Truck aria-hidden />
-            <h3>Priority shipping</h3>
-            <p>Get same-day dispatch on every order.</p>
-          </article>
-          <article className="card">
-            <WandSparkles aria-hidden />
-            <h3>AI style refresh</h3>
-            <p>Receive monthly outfit recommendations based on your favorites.</p>
-          </article>
+    <section className="border-b border-gray-300 py-16 md:py-24" id="membership" aria-labelledby="membership-title">
+      <div className="mx-auto w-full max-w-[1440px] px-8">
+        <SectionHeading center title="What Our Customers Say" />
+        <div className="grid gap-8 md:grid-cols-3">
+          {testimonials.map((testimonial) => (
+            <Card key={testimonial.name} className="border-gray-300 bg-gray-50 shadow-none">
+              <CardContent className="p-8">
+                <p className="mb-6 text-gray-700">&quot;{testimonial.quote}&quot;</p>
+                <p className="text-gray-900">- {testimonial.name}</p>
+              </CardContent>
+            </Card>
+          ))}
         </div>
       </div>
     </section>

@@ -4,7 +4,7 @@
   line-height: 1.5;
   font-weight: 400;
   color: #111827;
-  background-color: #f9fafb;
+  background-color: #ffffff;
 }
 
 *,
@@ -16,10 +16,8 @@
 body {
   margin: 0;
   color: inherit;
-  background:
-    radial-gradient(circle at 90% 0%, rgba(59, 130, 246, 0.22), transparent 30%),
-    radial-gradient(circle at 10% 0%, rgba(236, 72, 153, 0.2), transparent 25%),
-    #f9fafb;
+  min-height: 100vh;
+  background: #ffffff;
 }
 
 a {
@@ -30,7 +28,7 @@ h1,
 h2,
 h3 {
   margin: 0;
-  color: #0f172a;
+  color: inherit;
 }
 
 h1 {
@@ -53,7 +51,7 @@ h3 {
 
 p {
   margin: 0;
-  color: #334155;
+  color: #475569;
 }
 
 @layer base {

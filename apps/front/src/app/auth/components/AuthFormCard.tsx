@@ -24,19 +24,19 @@ export function AuthFormCard({
   children,
 }: AuthFormCardProps) {
   return (
-    <Card className="auth-card">
-      <CardHeader>
-        <CardTitle>{title}</CardTitle>
+    <Card className="w-full border-gray-300 bg-gray-50 shadow-none">
+      <CardHeader className="pb-6">
+        <CardTitle className="text-gray-900">{title}</CardTitle>
         <CardDescription>{description}</CardDescription>
       </CardHeader>
-      <CardContent className="auth-card-content">
+      <CardContent className="grid gap-6">
         {children}
-        <Button className="w-full" type="submit">
+        <Button className="h-12 w-full" type="submit">
           {submitLabel}
         </Button>
-        <p className="auth-form-footer">
+        <p className="text-center text-sm text-gray-700">
           {footerText}{' '}
-          <Link className="auth-inline-link" to={footerLinkTo}>
+          <Link className="text-gray-900 hover:underline" to={footerLinkTo}>
             {footerLinkLabel}
           </Link>
         </p>

@@ -8,8 +8,8 @@ import { AuthLayout } from './components/AuthLayout';
 export function ForgotPasswordPage() {
   return (
     <AuthLayout
-      title="Reset and get back to shopping."
-      subtitle="We will send a secure reset link to your inbox."
+      title="Forgot Password"
+      subtitle="Enter your email and we will send a password reset link."
     >
       <AuthFormCard
         title="Forgot password"
@@ -19,13 +19,16 @@ export function ForgotPasswordPage() {
         footerLinkLabel="Back to sign in"
         footerLinkTo="/sign-in"
       >
-        <form className="auth-form" onSubmit={(event) => event.preventDefault()}>
-          <div className="auth-form-field">
+        <form className="grid gap-6" onSubmit={(event) => event.preventDefault()}>
+          <div className="grid gap-2">
             <Label htmlFor="reset-email">Email address</Label>
             <Input id="reset-email" placeholder="you@example.com" type="email" required />
           </div>
-          <p className="auth-reset-help">
-            Need help with account access? <Link to="/sign-up">Create a new account instead.</Link>
+          <p className="text-sm text-gray-600">
+            Need help with account access?{' '}
+            <Link className="text-gray-900 hover:underline" to="/sign-up">
+              Create a new account instead.
+            </Link>
           </p>
         </form>
       </AuthFormCard>
