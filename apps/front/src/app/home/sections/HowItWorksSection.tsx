@@ -1,4 +1,5 @@
 import { ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { ProductCard } from '../components/ProductCard';
 import { SectionHeading } from '../components/SectionHeading';
 
@@ -15,9 +16,12 @@ export function HowItWorksSection() {
       <div className="mx-auto w-full max-w-[1440px] px-8">
         <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
           <SectionHeading title="Featured Products" />
-          <a href="#membership" className="inline-flex items-center gap-2 text-gray-700 hover:text-gray-900">
+          <Link
+            to="/shop"
+            className="inline-flex items-center gap-2 text-gray-700 hover:text-gray-900"
+          >
             View All <ArrowRight className="h-4 w-4" />
-          </a>
+          </Link>
         </div>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           {featuredProducts.map((item) => (
