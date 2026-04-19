@@ -4,6 +4,7 @@ import { SignInPage } from './auth/SignInPage';
 import { SignUpPage } from './auth/SignUpPage';
 import { ForgotPasswordPage } from './auth/ForgotPasswordPage';
 import { CartPage } from './cart/CartPage';
+import { ShopPage } from './shop/ShopPage';
 
 export function App() {
   return (
@@ -13,6 +14,7 @@ export function App() {
       <Route path="/sign-up" element={<SignUpPage />} />
       <Route path="/forgot-password" element={<ForgotPasswordPage />} />
       <Route path="/cart" element={<CartPage />} />
+      <Route path="/shop" element={<ShopPage />} />
     </Routes>
   );
 }

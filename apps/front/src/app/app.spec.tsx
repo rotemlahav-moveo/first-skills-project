@@ -14,17 +14,17 @@ describe('App', () => {
   });
 
   it('should render homepage marketing sections', () => {
-    const { getByRole } = render(
+    const { getByRole, getAllByRole } = render(
       <BrowserRouter>
         <App />
       </BrowserRouter>,
     );
     expect(
-      getByRole('heading', { level: 1, name: /own the look before it sells out/i }),
+      getByRole('heading', { level: 1, name: /discover your style/i }),
     ).toBeTruthy();
     expect(
-      getByRole('heading', { level: 2, name: /this week's standout picks/i }),
+      getByRole('heading', { level: 2, name: /shop by category/i }),
     ).toBeTruthy();
-    expect(getByRole('link', { name: /create account/i })).toBeTruthy();
+    expect(getAllByRole('link', { name: /create account/i }).length).toBeGreaterThan(0);
   });
 });

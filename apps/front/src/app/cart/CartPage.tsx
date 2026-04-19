@@ -1,51 +1,15 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronLeft } from 'lucide-react';
 import { SiteFooter } from '../home/components/SiteFooter';
 import { SiteHeader } from '../home/components/SiteHeader';
-import { INITIAL_CART_ITEMS } from './mockCart';
+import { useCart } from './CartContext';
 import { CartItemsSection } from './sections/CartItemsSection';
 import { CartSummarySection } from './sections/CartSummarySection';
 import { EmptyCartSection } from './sections/EmptyCartSection';
-import type { CartItem } from './types';
 
 export function CartPage() {
-  const [cartItems, setCartItems] = useState<CartItem[]>(INITIAL_CART_ITEMS);
-
-  function removeItem(itemId: string) {
-    setCartItems((currentItems) => currentItems.filter((item) => item.id !== itemId));
-  }
-
-  function updateItemQuantity(itemId: string, nextQuantity: number) {
-    if (nextQuantity <= 0) {
-      removeItem(itemId);
-      return;
-    }
-
-    setCartItems((currentItems) =>
-      currentItems.map((item) =>
-        item.id === itemId ? { ...item, quantity: nextQuantity } : item,
-      ),
-    );
-  }
-
-  function increaseQuantity(itemId: string) {
-    const item = cartItems.find((cartItem) => cartItem.id === itemId);
-    if (!item) {
-      return;
-    }
-
-    updateItemQuantity(itemId, item.quantity + 1);
-  }
-
-  function decreaseQuantity(itemId: string) {
-    const item = cartItems.find((cartItem) => cartItem.id === itemId);
-    if (!item) {
-      return;
-    }
-
-    updateItemQuantity(itemId, item.quantity - 1);
-  }
+  const { cartItems, removeItem, increaseQuantity, decreaseQuantity } = useCart();
 
   const subtotal = useMemo(
     () => cartItems.reduce((total, item) => total + item.price * item.quantity, 0),
@@ -65,7 +29,7 @@ export function CartPage() {
         <div className="mx-auto w-full max-w-[1440px] px-8">
           <div className="mb-8 space-y-4">
             <Link
-              to="/"
+              to="/shop"
               className="inline-flex items-center gap-2 text-sm text-gray-700 transition hover:text-gray-900"
             >
               <ChevronLeft className="h-4 w-4" />
