@@ -55,7 +55,7 @@ export function ShopProductCard({ product, onAddToCart }: ShopProductCardProps) 
         <h3 className="mb-2 text-sm text-gray-900">{product.name}</h3>
         <p className="text-gray-700">${product.price.toFixed(2)}</p>
       </div>
-
+      {/* Mobile Add to Cart Button */}
       <button
         type="button"
         onClick={() => onAddToCart(product)}
