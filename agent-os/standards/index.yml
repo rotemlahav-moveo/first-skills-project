@@ -5,4 +5,8 @@ standards:
     title: New Section Component Hierarchy
     path: frontend/new-section-component-hierarchy.md
     summary: Every new UI section must be extracted into a separate component and placed with clear architecture and hierarchy.
+  - id: backend/feature-structure
+    title: Backend Feature Structure
+    path: backend/feature-structure.md
+    summary: Organize each backend feature by controllers, services, dto, and entities with a feature module at the root.
 
