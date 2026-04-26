@@ -6,3 +6,6 @@ node_modules/
 dist/
 coverage/
 .cursor/mcp.json
+.env
+.env.*
+!.env.example

@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: first-skills-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: snap_style
+      POSTGRES_PASSWORD: snap_style
+      POSTGRES_DB: snapStyle_db
+    ports:
+      - '5432:5432'
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U snap_style -d snapStyle_db']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
