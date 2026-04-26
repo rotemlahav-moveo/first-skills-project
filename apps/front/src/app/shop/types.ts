@@ -17,13 +17,4 @@ export type SortOption = 'featured' | 'price-asc' | 'price-desc' | 'newest';
 
 export type FilterSectionTitle = 'Category' | 'Size' | 'Color' | 'Price Range' | 'Brand';
 
-
-/* FilterSelections =
-{
-  Category?: string[];
-  Size?: string[];
-  Color?: string[];
-  "Price Range"?: string[];
-  Brand?: string[];
-} */
 export type FilterSelections = Partial<Record<FilterSectionTitle, string[]>>;
