@@ -9,4 +9,8 @@ standards:
     title: Backend Feature Structure
     path: backend/feature-structure.md
     summary: Organize each backend feature by controllers, services, dto, and entities with a feature module at the root.
+  - id: global/shared-code-in-libs
+    title: Shared Code In Libs
+    path: global/shared-code-in-libs.md
+    summary: Place all reusable or cross-app code in libs and keep apps focused on app-specific wiring.
 

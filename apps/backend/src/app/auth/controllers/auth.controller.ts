@@ -1,4 +1,5 @@
 import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import type { AuthResponse } from '../../../../../../libs/shared/auth-contracts/src';
 import { LoginDto, RefreshTokenDto, SignupDto } from '../dto';
 import { AuthService } from '../services/auth.service';
 
@@ -9,47 +10,35 @@ export class AuthController {
 
   @Post('signup')
   // Default status code is 201 (Created)
-  async signup(@Body() payload: SignupDto) {
+  async signup(@Body() payload: SignupDto): Promise<AuthResponse> {
     const result = await this.authService.signup(payload);
-    return {
-      message: 'Signup successful',
-      user: {
-        userId: result.userId,
-        email: result.email,
-      },
-      tokens: {
-        accessToken: result.accessToken,
-        refreshToken: result.refreshToken,
-      },
-    };
+    return this.toAuthResponse('Signup successful', result);
   }
 
   @Post('login')
   // Override POST default to 200 for login responses
   @HttpCode(HttpStatus.OK)
-  async login(@Body() payload: LoginDto) {
+  async login(@Body() payload: LoginDto): Promise<AuthResponse> {
     const result = await this.authService.login(payload);
-    return {
-      message: 'Login successful',
-      user: {
-        userId: result.userId,
-        email: result.email,
-      },
-      tokens: {
-        accessToken: result.accessToken,
-        refreshToken: result.refreshToken,
-      },
-    };
+    return this.toAuthResponse('Login successful', result);
   }
   // refresh the tokens when the access token is expired
   @Post('refresh')
   @HttpCode(HttpStatus.OK)
-  async refresh(@Body() payload: RefreshTokenDto) {
+  async refresh(@Body() payload: RefreshTokenDto): Promise<AuthResponse> {
     const result = await this.authService.refreshTokens(payload);
+    return this.toAuthResponse('Token refresh successful', result);
+  }
+
+  private toAuthResponse(
+    message: string,
+    result: Awaited<ReturnType<AuthService['signup']>>,
+  ): AuthResponse {
     return {
-      message: 'Token refresh successful',
+      message,
       user: {
         userId: result.userId,
+        name: result.name,
         email: result.email,
       },
       tokens: {

@@ -7,6 +7,7 @@ describe('AuthController', () => {
     const authService = {
       signup: vi.fn().mockResolvedValue({
         userId: 'user-1',
+        name: 'Alex Morgan',
         email: 'demo@example.com',
         accessToken: 'access-token',
         refreshToken: 'refresh-token',
@@ -17,6 +18,7 @@ describe('AuthController', () => {
 
     const controller = new AuthController(authService);
     const response = await controller.signup({
+      name: 'Alex Morgan',
       email: 'demo@example.com',
       password: 'password123',
     });
@@ -25,6 +27,7 @@ describe('AuthController', () => {
       message: 'Signup successful',
       user: {
         userId: 'user-1',
+        name: 'Alex Morgan',
         email: 'demo@example.com',
       },
       tokens: {
@@ -39,6 +42,7 @@ describe('AuthController', () => {
       signup: vi.fn(),
       login: vi.fn().mockResolvedValue({
         userId: 'user-2',
+        name: 'Sam Taylor',
         email: 'user2@example.com',
         accessToken: 'access-token-2',
         refreshToken: 'refresh-token-2',
@@ -56,6 +60,7 @@ describe('AuthController', () => {
       message: 'Login successful',
       user: {
         userId: 'user-2',
+        name: 'Sam Taylor',
         email: 'user2@example.com',
       },
       tokens: {
@@ -71,6 +76,7 @@ describe('AuthController', () => {
       login: vi.fn(),
       refreshTokens: vi.fn().mockResolvedValue({
         userId: 'user-1',
+        name: 'Alex Morgan',
         email: 'demo@example.com',
         accessToken: 'new-access-token',
         refreshToken: 'new-refresh-token',
@@ -87,6 +93,7 @@ describe('AuthController', () => {
       message: 'Token refresh successful',
       user: {
         userId: 'user-1',
+        name: 'Alex Morgan',
         email: 'demo@example.com',
       },
       tokens: {

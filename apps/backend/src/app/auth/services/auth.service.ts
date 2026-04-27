@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
+import { PASSWORD_MIN_LENGTH } from '../../../../../../libs/shared/auth-domain/src';
 import type { StringValue } from 'ms';
 import { randomBytes, scryptSync, timingSafeEqual } from 'node:crypto';
 import { Repository } from 'typeorm';
@@ -15,6 +16,7 @@ import { UserEntity } from '../entities/user.entity';
 // Returned payload shape for successful auth actions
 interface AuthResult {
   userId: string;
+  name: string;
   email: string;
   accessToken: string;
   refreshToken: string;
@@ -29,6 +31,7 @@ export class AuthService {
   ) {} // usersRepository interacts with the users table
 
   async signup(payload: SignupDto): Promise<AuthResult> {
+    const name = this.normalizeAndValidateName(payload.name);
     const email = this.normalizeAndValidateEmail(payload.email);
     this.validatePassword(payload.password);
 
@@ -41,6 +44,7 @@ export class AuthService {
     }
 
     const user = this.usersRepository.create({
+      name,
       email,
       // Store only a hashed password, never plain text
       passwordHash: this.hashPassword(payload.password),
@@ -110,15 +114,28 @@ export class AuthService {
     return email;
   }
 
+  private normalizeAndValidateName(rawName: string): string {
+    const name = rawName?.trim();
+    if (!name || name.length < 2) {
+      throw new BadRequestException('Name is required and must be at least 2 characters long');
+    }
+    return name;
+  }
+
   private validatePassword(password: string): void {
-    if (!password || password.length < 8) {
+    if (!password || password.length < PASSWORD_MIN_LENGTH) {
       throw new BadRequestException(
-        'Password is required and must be at least 8 characters long',
+        `Password is required and must be at least ${PASSWORD_MIN_LENGTH} characters long`,
       );
     }
   }
   // create the auth result - jwt
   private async createAuthResult(user: UserEntity): Promise<AuthResult> {
+    const name =
+      user.name?.trim() ||
+      user.email.split('@')[0]?.trim() ||
+      user.email;
+
     const accessSecret = process.env.JWT_ACCESS_SECRET || 'dev-access-secret';
     const accessExpiresIn = process.env.JWT_ACCESS_EXPIRES_IN || '15m';
     const refreshSecret = process.env.JWT_REFRESH_SECRET || 'dev-refresh-secret';
@@ -143,6 +160,7 @@ export class AuthService {
 
     return { // return the user's id, email, access token, and refresh token to the controller
       userId: user.id,
+      name,
       email: user.email,
       accessToken,
       refreshToken,

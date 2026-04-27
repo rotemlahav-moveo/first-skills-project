@@ -15,11 +15,12 @@ export function ForgotPasswordPage() {
         title="Forgot password"
         description="Enter your account email to reset your password."
         submitLabel="Send reset link"
+        formId="forgot-password-form"
         footerText="Remembered your password?"
         footerLinkLabel="Back to sign in"
         footerLinkTo="/sign-in"
       >
-        <form className="grid gap-6" onSubmit={(event) => event.preventDefault()}>
+        <form id="forgot-password-form" className="grid gap-6" onSubmit={(event) => event.preventDefault()}>
           <div className="grid gap-2">
             <Label htmlFor="reset-email">Email address</Label>
             <Input id="reset-email" placeholder="you@example.com" type="email" required />

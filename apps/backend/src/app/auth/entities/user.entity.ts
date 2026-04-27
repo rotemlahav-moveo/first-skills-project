@@ -11,6 +11,9 @@ export class UserEntity {
   @PrimaryGeneratedColumn('uuid')
   id!: string; //id is the primary key of the user table
 
+  @Column({ nullable: true })
+  name!: string | null;
+
   @Column({ unique: true }) //unique is used to ensure that the email is unique
   email!: string;
 

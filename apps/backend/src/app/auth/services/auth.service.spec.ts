@@ -26,6 +26,7 @@ describe('AuthService', () => {
     repo.create.mockImplementation((value) => value);
     repo.save.mockResolvedValue({
       id: 'user-1',
+      name: 'Alex Morgan',
       email: 'demo@example.com',
       passwordHash: 'hashed',
       refreshTokenHash: null,
@@ -42,12 +43,14 @@ describe('AuthService', () => {
     const service = new AuthService(repo as never, jwtService as never);
 
     const result = await service.signup({
+      name: ' Alex Morgan ',
       email: ' Demo@Example.com ',
       password: 'password123',
     });
 
     expect(result).toEqual({
       userId: 'user-1',
+      name: 'Alex Morgan',
       email: 'demo@example.com',
       accessToken: 'access-token',
       refreshToken: 'refresh-token',
@@ -69,6 +72,7 @@ describe('AuthService', () => {
 
     await expect(
       service.signup({
+        name: 'Alex Morgan',
         email: 'demo@example.com',
         password: 'password123',
       }),
@@ -94,6 +98,7 @@ describe('AuthService', () => {
     const repo = createRepositoryMock();
     repo.findOne.mockResolvedValue({
       id: 'user-1',
+      name: 'Alex Morgan',
       email: 'demo@example.com',
       passwordHash: 'unused',
       refreshTokenHash: hashValue(refreshToken),
@@ -116,6 +121,7 @@ describe('AuthService', () => {
 
     expect(result).toEqual({
       userId: 'user-1',
+      name: 'Alex Morgan',
       email: 'demo@example.com',
       accessToken: 'new-access-token',
       refreshToken: 'new-refresh-token',
@@ -127,6 +133,7 @@ describe('AuthService', () => {
     const repo = createRepositoryMock();
     repo.findOne.mockResolvedValue({
       id: 'user-1',
+      name: 'Alex Morgan',
       email: 'demo@example.com',
       passwordHash: 'unused',
       refreshTokenHash: hashValue('some-other-token'),
