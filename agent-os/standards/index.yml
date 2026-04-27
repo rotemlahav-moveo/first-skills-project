@@ -17,4 +17,16 @@ standards:
     title: Shared Code In Libs
     path: global/shared-code-in-libs.md
     summary: Place all reusable or cross-app code in libs and keep apps focused on app-specific wiring.
+  - id: global/use-switch-for-discriminated-branches
+    title: Use Switch For Discriminated Branches
+    path: global/use-switch-for-discriminated-branches.md
+    summary: Prefer switch statements over if/else chains when branching on one discriminated value like kind/type/status.
+  - id: global/extract-repeated-literals-to-enums
+    title: Extract Repeated Literals To Enums
+    path: global/extract-repeated-literals-to-enums.md
+    summary: Promote repeated domain literals into shared enums or const maps and reuse them instead of duplicating magic strings.
+  - id: global/split-zod-schema-into-schema-files
+    title: Split Zod Schemas Into Schema Files
+    path: global/split-zod-schema-into-schema-files.md
+    summary: Keep Zod schema declarations in dedicated schema files and keep form/UI config files focused on rendering configuration.
 

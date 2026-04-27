@@ -1,8 +1,9 @@
 import { ChevronRight, SlidersHorizontal } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import type { Control } from 'react-hook-form';
-import { ConfigFormFields } from '@shared/form-system';
-import { shopSortFieldConfigs, type ShopFiltersFormInput } from '../formConfig';
+import { GenericFormInput } from '@shared/form-system';
+import type { ShopFiltersFormInput } from '../formSchema';
+import { shopSortFieldConfigs } from '../formConfig';
 
 type ShopPageHeaderSectionProps = {
   title: string;
@@ -28,7 +29,7 @@ export function ShopPageHeaderSection({
       <div className="mb-8 flex items-center justify-between">
         <h1 className="text-3xl text-gray-900 md:text-4xl">{title}</h1>
         <div className="flex items-center gap-4">
-          <ConfigFormFields control={control} fields={[shopSortFieldConfigs[0]]} />
+          <GenericFormInput control={control} fields={[shopSortFieldConfigs[0]]} />
           <button
             type="button"
             onClick={onOpenMobileFilters}
@@ -41,7 +42,7 @@ export function ShopPageHeaderSection({
       </div>
 
       <div className="mb-6 md:hidden">
-        <ConfigFormFields control={control} fields={[shopSortFieldConfigs[1]]} />
+        <GenericFormInput control={control} fields={[shopSortFieldConfigs[1]]} />
       </div>
     </>
   );

@@ -1,15 +1,12 @@
 import { Link } from 'react-router-dom';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { ConfigFormFields } from '@shared/form-system';
+import { GenericFormInput } from '@shared/form-system';
 
 import { AuthFormCard } from './components/AuthFormCard';
 import { AuthLayout } from './components/AuthLayout';
-import {
-  forgotPasswordFields,
-  forgotPasswordSchema,
-  type ForgotPasswordFormValues,
-} from './formConfig';
+import { forgotPasswordFields } from './formConfig';
+import { forgotPasswordSchema, type ForgotPasswordFormValues } from './formSchema';
 
 export function ForgotPasswordPage() {
   const {
@@ -43,7 +40,7 @@ export function ForgotPasswordPage() {
         isSubmitting={isSubmitting}
       >
         <form id="forgot-password-form" className="grid gap-6" onSubmit={onSubmit} noValidate>
-          <ConfigFormFields
+          <GenericFormInput
             control={control}
             fields={forgotPasswordFields}
             isSubmitting={isSubmitting}

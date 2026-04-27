@@ -1,6 +1,21 @@
 import type { FieldValues, Path } from 'react-hook-form';
 import type { ReactNode } from 'react';
 
+export enum FormFieldKind {
+  input = 'input',
+  select = 'select',
+  checkboxGroup = 'checkbox-group',
+}
+
+export enum InputType {
+  text = 'text',
+  email = 'email',
+  password = 'password',
+  search = 'search',
+  url = 'url',
+  tel = 'tel',
+}
+
 // FormSelectOption is used to configure the options for a select/checkbox-group field.
 export type FormSelectOption = {
   value: string;
@@ -19,21 +34,21 @@ type BaseFormFieldConfig<TValues extends FieldValues> = {
 
 // InputFieldConfig is used to configure the input field.
 export type InputFieldConfig<TValues extends FieldValues> = BaseFormFieldConfig<TValues> & {
-  kind: 'input';
-  inputType?: 'text' | 'email' | 'password' | 'search' | 'url' | 'tel';
+  kind: FormFieldKind.input;
+  inputType?: InputType;
   placeholder?: string;
   autoComplete?: string;
 };
 
 // SelectFieldConfig is used to configure the select field (dropdown)
 export type SelectFieldConfig<TValues extends FieldValues> = BaseFormFieldConfig<TValues> & {
-  kind: 'select';
+  kind: FormFieldKind.select;
   options: FormSelectOption[];
 };
 
 // CheckboxGroupFieldConfig is used to configure the checkbox group field.
 export type CheckboxGroupFieldConfig<TValues extends FieldValues> = BaseFormFieldConfig<TValues> & {
-  kind: 'checkbox-group';
+  kind: FormFieldKind.checkboxGroup;
   options: FormSelectOption[];
 };
 // FormFieldConfig is one of the three field types: input, select, or checkbox-group.

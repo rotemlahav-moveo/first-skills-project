@@ -1,8 +1,9 @@
 import { ChevronDown } from 'lucide-react';
 import { useState } from 'react';
 import type { Control } from 'react-hook-form';
-import { ConfigFormFields } from '@shared/form-system';
-import { filterSections, shopFilterFieldConfigs, type ShopFiltersFormInput } from '../formConfig';
+import { GenericFormInput } from '@shared/form-system';
+import type { ShopFiltersFormInput } from '../formSchema';
+import { filterSections, shopFilterFieldConfigs } from '../formConfig';
 
 type ShopFiltersPanelProps = {
   control: Control<ShopFiltersFormInput>;
@@ -52,7 +53,7 @@ export function ShopFiltersPanel({ control, onClearAll, isSubmitting = false }: 
             </button>
 
             {openSections[section.title] && (
-              <ConfigFormFields
+              <GenericFormInput
                 control={control}
                 isSubmitting={isSubmitting}
                 fields={shopFilterFieldConfigs.filter((field) => field.name === `filters.${section.title}`)}

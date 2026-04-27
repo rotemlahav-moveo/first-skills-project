@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { SiteFooter } from '../home/components/SiteFooter';
@@ -7,11 +7,9 @@ import { useCart } from '../cart/CartContext';
 import { filterProducts, sortProducts } from './filterProducts';
 import {
   defaultShopFiltersFormValues,
-  shopFiltersFormSchema,
   toFilterSelections,
-  type ShopFiltersFormInput,
-  type ShopFiltersFormValues,
 } from './formConfig';
+import { shopFiltersFormSchema, type ShopFiltersFormInput, type ShopFiltersFormValues } from './formSchema';
 import { SHOP_PRODUCTS } from './mockProducts';
 import { ShopFiltersPanel } from './components/ShopFiltersPanel';
 import { ShopPageHeaderSection } from './sections/ShopPageHeaderSection';
@@ -34,10 +32,9 @@ export function ShopPage() {
   });
   const sort = watch('sort');
   const filters = watch('filters');
-  const selections = useMemo(() => toFilterSelections(filters), [filters]);
-
-  const filtered = useMemo(() => filterProducts(SHOP_PRODUCTS, selections), [selections]);
-  const sortedProducts = useMemo(() => sortProducts(filtered, sort), [filtered, sort]);
+  const selections = toFilterSelections(filters);
+  const filtered = filterProducts(SHOP_PRODUCTS, selections);
+  const sortedProducts = sortProducts(filtered, sort);
 
   const clearFilters = useCallback(() => {
     setValue('filters', defaultShopFiltersFormValues.filters);

@@ -2,13 +2,14 @@ import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { ConfigFormFields } from '@shared/form-system';
+import { GenericFormInput } from '@shared/form-system';
 
 import { getErrorMessage, login } from './api';
 import { useAuth } from './AuthContext';
 import { AuthFormCard } from './components/AuthFormCard';
 import { AuthLayout } from './components/AuthLayout';
-import { signInFields, signInSchema, type SignInFormValues } from './formConfig';
+import { signInFields } from './formConfig';
+import { signInSchema, type SignInFormValues } from './formSchema';
 
 export function SignInPage() {
   const navigate = useNavigate();
@@ -56,7 +57,7 @@ export function SignInPage() {
         footerLinkTo="/sign-up"
       >
         <form id="sign-in-form" className="grid gap-6" onSubmit={onSubmit} noValidate>
-          <ConfigFormFields control={control} fields={signInFields} isSubmitting={isSubmitting} />
+          <GenericFormInput control={control} fields={signInFields} isSubmitting={isSubmitting} />
         </form>
       </AuthFormCard>
     </AuthLayout>
