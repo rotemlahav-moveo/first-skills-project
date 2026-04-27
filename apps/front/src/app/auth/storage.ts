@@ -1,4 +1,4 @@
-import type { AuthResponse, AuthUser } from '../../../../../libs/shared/auth-contracts/src';
+import type { AuthResponse, AuthUser } from '@shared/auth-contracts';
 
 const ACCESS_TOKEN_KEY = 'auth_access_token';
 const REFRESH_TOKEN_KEY = 'auth_refresh_token';

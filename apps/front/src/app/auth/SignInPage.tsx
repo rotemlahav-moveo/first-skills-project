@@ -1,37 +1,42 @@
-import { Link } from 'react-router-dom';
-import { type FormEvent, useState } from 'react';
+import { useState } from 'react';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { ConfigFormFields } from '@shared/form-system';
 
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { getErrorMessage, login } from './api';
 import { useAuth } from './AuthContext';
 import { AuthFormCard } from './components/AuthFormCard';
 import { AuthLayout } from './components/AuthLayout';
+import { signInFields, signInSchema, type SignInFormValues } from './formConfig';
 
 export function SignInPage() {
   const navigate = useNavigate();
   const { setSession } = useAuth();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const {
+    control,
+    handleSubmit,
+    formState: { isSubmitting },
+  } = useForm<SignInFormValues>({
+    resolver: zodResolver(signInSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+  });
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setIsSubmitting(true);
+  const onSubmit = handleSubmit(async (values) => {
     setErrorMessage(null);
 
     try {
-      const authResponse = await login({ email, password });
+      const authResponse = await login(values);
       setSession(authResponse);
       navigate('/');
     } catch (error) {
       setErrorMessage(getErrorMessage(error));
-    } finally {
-      setIsSubmitting(false);
     }
-  }
+  });
 
   return (
     <AuthLayout
@@ -50,36 +55,8 @@ export function SignInPage() {
         footerLinkLabel="Create one"
         footerLinkTo="/sign-up"
       >
-        <form id="sign-in-form" className="grid gap-6" onSubmit={handleSubmit}>
-          <div className="grid gap-2">
-            <Label htmlFor="sign-in-email">Email address</Label>
-            <Input
-              id="sign-in-email"
-              placeholder="you@example.com"
-              type="email"
-              required
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              disabled={isSubmitting}
-            />
-          </div>
-          <div className="grid gap-2">
-            <div className="flex items-center justify-between gap-4">
-              <Label htmlFor="sign-in-password">Password</Label>
-              <Link className="text-sm text-gray-700 hover:text-gray-900 hover:underline" to="/forgot-password">
-                Forgot password?
-              </Link>
-            </div>
-            <Input
-              id="sign-in-password"
-              placeholder="Enter your password"
-              type="password"
-              required
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              disabled={isSubmitting}
-            />
-          </div>
+        <form id="sign-in-form" className="grid gap-6" onSubmit={onSubmit} noValidate>
+          <ConfigFormFields control={control} fields={signInFields} isSubmitting={isSubmitting} />
         </form>
       </AuthFormCard>
     </AuthLayout>

@@ -1,42 +1,16 @@
 import { ChevronDown } from 'lucide-react';
 import { useState } from 'react';
-import type { FilterSectionTitle, FilterSelections } from '../types';
-
-type FilterSection = {
-  title: FilterSectionTitle;
-  options: string[];
-};
-
-const filterSections: FilterSection[] = [
-  {
-    title: 'Category',
-    options: ['Tops', 'Bottoms', 'Dresses', 'Outerwear', 'Shoes'],
-  },
-  {
-    title: 'Size',
-    options: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
-  },
-  {
-    title: 'Color',
-    options: ['Black', 'White', 'Gray', 'Blue', 'Red'],
-  },
-  {
-    title: 'Price Range',
-    options: ['Under $50', '$50 - $100', '$100 - $200', 'Over $200'],
-  },
-  {
-    title: 'Brand',
-    options: ['Brand A', 'Brand B', 'Brand C', 'Brand D'],
-  },
-];
+import type { Control } from 'react-hook-form';
+import { ConfigFormFields } from '@shared/form-system';
+import { filterSections, shopFilterFieldConfigs, type ShopFiltersFormInput } from '../formConfig';
 
 type ShopFiltersPanelProps = {
-  selections: FilterSelections;
-  onToggleOption: (section: FilterSectionTitle, option: string, checked: boolean) => void;
+  control: Control<ShopFiltersFormInput>;
   onClearAll: () => void;
+  isSubmitting?: boolean;
 };
 
-export function ShopFiltersPanel({ selections, onToggleOption, onClearAll }: ShopFiltersPanelProps) {
+export function ShopFiltersPanel({ control, onClearAll, isSubmitting = false }: ShopFiltersPanelProps) {
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({
     Category: true,
     Size: true,
@@ -50,10 +24,6 @@ export function ShopFiltersPanel({ selections, onToggleOption, onClearAll }: Sho
       ...prev,
       [title]: !prev[title],
     }));
-  }
-
-  function isChecked(section: FilterSectionTitle, option: string): boolean {
-    return (selections[section] ?? []).includes(option);
   }
 
   return (
@@ -82,21 +52,11 @@ export function ShopFiltersPanel({ selections, onToggleOption, onClearAll }: Sho
             </button>
 
             {openSections[section.title] && (
-              <div className="space-y-3">
-                {section.options.map((option) => (
-                  <label key={option} className="flex cursor-pointer items-center gap-3">
-                    <input
-                      type="checkbox"
-                      className="h-4 w-4 border-gray-300"
-                      checked={isChecked(section.title, option)}
-                      onChange={(event) =>
-                        onToggleOption(section.title, option, event.target.checked)
-                      }
-                    />
-                    <span className="text-sm text-gray-700">{option}</span>
-                  </label>
-                ))}
-              </div>
+              <ConfigFormFields
+                control={control}
+                isSubmitting={isSubmitting}
+                fields={shopFilterFieldConfigs.filter((field) => field.name === `filters.${section.title}`)}
+              />
             )}
           </div>
         ))}

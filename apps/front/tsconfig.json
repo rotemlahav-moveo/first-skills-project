@@ -3,7 +3,10 @@
     "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "@shared/auth-contracts": ["../../libs/shared/auth-contracts/src/index.ts"],
+      "@shared/auth-domain": ["../../libs/shared/auth-domain/src/index.ts"],
+      "@shared/form-system": ["../../libs/shared/form-system/src/index.ts"]
     },
     "allowJs": false,
     "esModuleInterop": false,

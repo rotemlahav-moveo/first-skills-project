@@ -3,7 +3,7 @@ import type {
   LoginRequest,
   RefreshTokenRequest,
   SignupRequest,
-} from '../../../../../libs/shared/auth-contracts/src';
+} from '@shared/auth-contracts';
 import {
   clearAuthSession,
   getAccessToken,

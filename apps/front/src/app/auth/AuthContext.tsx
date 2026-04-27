@@ -8,7 +8,7 @@ import {
   type ReactNode,
 } from 'react';
 
-import type { AuthResponse, AuthUser } from '../../../../../libs/shared/auth-contracts/src';
+import type { AuthResponse, AuthUser } from '@shared/auth-contracts';
 import { clearAuthSession, getAccessToken, getStoredUser, persistAuthSession } from './storage';
 
 type AuthContextValue = {

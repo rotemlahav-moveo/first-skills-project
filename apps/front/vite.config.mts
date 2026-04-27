@@ -21,6 +21,12 @@ export default defineConfig(() => ({
   resolve: {
     alias: {
       '@': path.resolve(import.meta.dirname, './src'),
+      '@shared/auth-contracts': path.resolve(
+        import.meta.dirname,
+        '../../libs/shared/auth-contracts/src/index.ts',
+      ),
+      '@shared/auth-domain': path.resolve(import.meta.dirname, '../../libs/shared/auth-domain/src/index.ts'),
+      '@shared/form-system': path.resolve(import.meta.dirname, '../../libs/shared/form-system/src/index.ts'),
     },
   },
   build: {
