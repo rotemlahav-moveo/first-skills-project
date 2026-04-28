@@ -1,9 +1,17 @@
+import {
+  createApi,
+  fetchBaseQuery,
+  type BaseQueryFn,
+  type FetchArgs,
+  type FetchBaseQueryError,
+} from '@reduxjs/toolkit/query/react';
 import type {
   AuthResponse,
   LoginRequest,
   RefreshTokenRequest,
   SignupRequest,
 } from '@shared/auth-contracts';
+
 import {
   clearAuthSession,
   getAccessToken,
@@ -13,115 +21,107 @@ import {
 } from './storage';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:3000/api';
+const SESSION_EXPIRED_ERROR = 'Session expired. Please sign in again.';
+const AUTH_EXCLUDED_PATHS = new Set(['/auth/login', '/auth/signup', '/auth/refresh']);
 
-class ApiError extends Error {
-  readonly status: number;
+const rawBaseQuery = fetchBaseQuery({
+  baseUrl: API_BASE_URL,
+  prepareHeaders: (headers) => {
+    headers.set('Content-Type', 'application/json');
+    const token = getAccessToken();
+    if (token) {
+      headers.set('Authorization', `Bearer ${token}`);
+    }
+    return headers;
+  },
+});
 
-  constructor(message: string, status: number) {
-    super(message);
-    this.name = 'ApiError';
-    this.status = status;
-  }
-}
-// called to make a request without the access token
-async function postJson<TResponse, TPayload>(
-  path: string,
-  payload: TPayload,
-): Promise<TResponse> {
-  const response = await fetch(`${API_BASE_URL}${path}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(payload),
-  });
+const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> = async (
+  args,
+  api,
+  extraOptions,
+) => {
+  let result = await rawBaseQuery(args, api, extraOptions);
+  const requestUrl = typeof args === 'string' ? args : args.url;
 
-  const data = (await response.json().catch(() => null)) as
-    | { message?: string }
-    | null;
-
-  if (!response.ok) {
-    const message = data?.message ?? 'Request failed';
-    throw new ApiError(message, response.status);
+  if (result.error?.status !== 401 || AUTH_EXCLUDED_PATHS.has(requestUrl)) {
+    return result;
   }
 
-  return data as TResponse;
-}
-// called to refresh the access token and persist the session
-async function refreshAndPersistSession(): Promise<string | null> {
   const refreshToken = getRefreshToken();
   const user = getStoredUser();
+
   if (!refreshToken || !user?.userId) {
     clearAuthSession();
-    return null;
-  }
-
-  try {
-    const refreshed = await refresh({
-      userId: user.userId,
-      refreshToken,
-    });
-    persistAuthSession(refreshed);
-    return refreshed.tokens.accessToken;
-  } catch {
-    clearAuthSession();
-    return null;
-  }
-}
-
-// called to make a request with the access token
-export async function postJsonWithAuth<TResponse, TPayload>(
-  path: string,
-  payload: TPayload,
-): Promise<TResponse> {
-  const requestWithToken = async (token: string | null): Promise<Response> =>
-    fetch(`${API_BASE_URL}${path}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    return {
+      error: {
+        status: 401,
+        data: { message: SESSION_EXPIRED_ERROR },
       },
-      body: JSON.stringify(payload),
-    });
-
-  let accessToken = getAccessToken();
-  let response = await requestWithToken(accessToken);
-
-  if (response.status === 401) {
-    accessToken = await refreshAndPersistSession();
-    if (!accessToken) {
-      throw new ApiError('Session expired. Please sign in again.', 401);
-    }
-    response = await requestWithToken(accessToken);
+    };
   }
 
-  const data = (await response.json().catch(() => null)) as
-    | { message?: string }
-    | null;
+  const refreshResult = await rawBaseQuery(
+    {
+      url: '/auth/refresh',
+      method: 'POST',
+      body: { userId: user.userId, refreshToken } satisfies RefreshTokenRequest,
+    },
+    api,
+    extraOptions,
+  );
 
-  if (!response.ok) {
-    const message = data?.message ?? 'Request failed';
-    throw new ApiError(message, response.status);
+  if (refreshResult.data) {
+    persistAuthSession(refreshResult.data as AuthResponse);
+    result = await rawBaseQuery(args, api, extraOptions);
+    return result;
   }
 
-  return data as TResponse;
-}
+  clearAuthSession();
+  return {
+    error: {
+      status: 401,
+      data: { message: SESSION_EXPIRED_ERROR },
+    },
+  };
+};
 
-export function signup(payload: SignupRequest): Promise<AuthResponse> {
-  return postJson<AuthResponse, SignupRequest>('/auth/signup', payload);
-}
+export const authApi = createApi({
+  reducerPath: 'authApi',
+  baseQuery: baseQueryWithReauth,
+  endpoints: (builder) => ({
+    signup: builder.mutation<AuthResponse, SignupRequest>({
+      query: (payload) => ({
+        url: '/auth/signup',
+        method: 'POST',
+        body: payload,
+      }),
+    }),
+    login: builder.mutation<AuthResponse, LoginRequest>({
+      query: (payload) => ({
+        url: '/auth/login',
+        method: 'POST',
+        body: payload,
+      }),
+    }),
+    refresh: builder.mutation<AuthResponse, RefreshTokenRequest>({
+      query: (payload) => ({
+        url: '/auth/refresh',
+        method: 'POST',
+        body: payload,
+      }),
+    }),
+  }),
+});
 
-export function login(payload: LoginRequest): Promise<AuthResponse> {
-  return postJson<AuthResponse, LoginRequest>('/auth/login', payload);
-}
-
-export function refresh(payload: RefreshTokenRequest): Promise<AuthResponse> {
-  return postJson<AuthResponse, RefreshTokenRequest>('/auth/refresh', payload);
-}
+export const { useLoginMutation, useSignupMutation, useRefreshMutation } = authApi;
 
 export function getErrorMessage(error: unknown): string {
-  if (error instanceof ApiError) {
-    return error.message;
+  if (typeof error === 'object' && error !== null && 'status' in error) {
+    const maybeError = error as { data?: { message?: string } };
+    if (maybeError.data?.message) {
+      return maybeError.data.message;
+    }
   }
 
   if (error instanceof Error && error.message) {

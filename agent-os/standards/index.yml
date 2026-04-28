@@ -9,6 +9,10 @@ standards:
     title: Frontend Forms RHF Config Standard
     path: frontend/forms-rhf-config-standard.md
     summary: Build all frontend forms with React Hook Form and Zod, and render fields from typed config arrays via shared reusable components.
+  - id: frontend/redux-rtk-query-api-standard
+    title: Frontend Redux RTK Query API Standard
+    path: frontend/redux-rtk-query-api-standard.md
+    summary: Implement all frontend backend API calls through RTK Query with a shared base API and feature endpoint injection.
   - id: backend/feature-structure
     title: Backend Feature Structure
     path: backend/feature-structure.md

@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { GenericFormInput } from '@shared/form-system';
 
-import { getErrorMessage, login } from './api';
+import { getErrorMessage, useLoginMutation } from './api';
 import { useAuth } from './AuthContext';
 import { AuthFormCard } from './components/AuthFormCard';
 import { AuthLayout } from './components/AuthLayout';
@@ -15,10 +15,11 @@ export function SignInPage() {
   const navigate = useNavigate();
   const { setSession } = useAuth();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [login, { isLoading: isLoginLoading }] = useLoginMutation();
   const {
     control,
     handleSubmit,
-    formState: { isSubmitting },
+    formState: { isSubmitting: isFormSubmitting },
   } = useForm<SignInFormValues>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
@@ -31,13 +32,14 @@ export function SignInPage() {
     setErrorMessage(null);
 
     try {
-      const authResponse = await login(values);
+      const authResponse = await login(values).unwrap();
       setSession(authResponse);
       navigate('/');
     } catch (error) {
       setErrorMessage(getErrorMessage(error));
     }
   });
+  const isSubmitting = isFormSubmitting || isLoginLoading;
 
   return (
     <AuthLayout
