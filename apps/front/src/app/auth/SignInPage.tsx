@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { GenericFormInput } from '@shared/form-system';
 
-import { getErrorMessage, useLoginMutation } from './api';
+import { getErrorMessage, useLoginMutation } from '../../redux/authApi/authApi';
 import { useAuth } from './AuthContext';
 import { AuthFormCard } from './components/AuthFormCard';
 import { AuthLayout } from './components/AuthLayout';

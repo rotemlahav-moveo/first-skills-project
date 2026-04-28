@@ -5,11 +5,13 @@ import { vi } from 'vitest';
 
 import { AuthProvider } from './AuthContext';
 import { SignInPage } from './SignInPage';
-import { store } from '../reduxStore/reduxStore';
-import { useLoginMutation } from './api';
+import { store } from '../../redux/store';
+import { useLoginMutation } from '../../redux/authApi/authApi';
 
-vi.mock('./api', async () => {
-  const actual = await vi.importActual<typeof import('./api')>('./api');
+vi.mock('../../redux/authApi/authApi', async () => {
+  const actual = await vi.importActual<typeof import('../../redux/authApi/authApi')>(
+    '../../redux/authApi/authApi',
+  );
   return {
     ...actual,
     useLoginMutation: vi.fn(),

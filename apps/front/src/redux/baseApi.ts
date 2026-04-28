@@ -5,12 +5,7 @@ import {
   type FetchArgs,
   type FetchBaseQueryError,
 } from '@reduxjs/toolkit/query/react';
-import type {
-  AuthResponse,
-  LoginRequest,
-  RefreshTokenRequest,
-  SignupRequest,
-} from '@shared/auth-contracts';
+import type { AuthResponse, RefreshTokenRequest } from '@shared/auth-contracts';
 
 import {
   clearAuthSession,
@@ -18,7 +13,7 @@ import {
   getRefreshToken,
   getStoredUser,
   persistAuthSession,
-} from './storage';
+} from '../app/auth/storage';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:3000/api';
 const SESSION_EXPIRED_ERROR = 'Session expired. Please sign in again.';
@@ -86,47 +81,8 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
   };
 };
 
-export const authApi = createApi({
-  reducerPath: 'authApi',
+export const baseApi = createApi({
+  reducerPath: 'baseApi',
   baseQuery: baseQueryWithReauth,
-  endpoints: (builder) => ({
-    signup: builder.mutation<AuthResponse, SignupRequest>({
-      query: (payload) => ({
-        url: '/auth/signup',
-        method: 'POST',
-        body: payload,
-      }),
-    }),
-    login: builder.mutation<AuthResponse, LoginRequest>({
-      query: (payload) => ({
-        url: '/auth/login',
-        method: 'POST',
-        body: payload,
-      }),
-    }),
-    refresh: builder.mutation<AuthResponse, RefreshTokenRequest>({
-      query: (payload) => ({
-        url: '/auth/refresh',
-        method: 'POST',
-        body: payload,
-      }),
-    }),
-  }),
+  endpoints: () => ({}),
 });
-
-export const { useLoginMutation, useSignupMutation, useRefreshMutation } = authApi;
-
-export function getErrorMessage(error: unknown): string {
-  if (typeof error === 'object' && error !== null && 'status' in error) {
-    const maybeError = error as { data?: { message?: string } };
-    if (maybeError.data?.message) {
-      return maybeError.data.message;
-    }
-  }
-
-  if (error instanceof Error && error.message) {
-    return error.message;
-  }
-
-  return 'Something went wrong. Please try again.';
-}
