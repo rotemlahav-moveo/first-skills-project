@@ -8,6 +8,10 @@ type AuthFormCardProps = {
   title: string;
   description: string;
   submitLabel: string;
+  submittingLabel?: string;
+  formId: string;
+  isSubmitting?: boolean;
+  errorMessage?: string | null;
   footerText: string;
   footerLinkLabel: string;
   footerLinkTo: string;
@@ -18,6 +22,10 @@ export function AuthFormCard({
   title,
   description,
   submitLabel,
+  submittingLabel,
+  formId,
+  isSubmitting = false,
+  errorMessage = null,
   footerText,
   footerLinkLabel,
   footerLinkTo,
@@ -31,8 +39,13 @@ export function AuthFormCard({
       </CardHeader>
       <CardContent className="grid gap-6">
         {children}
-        <Button className="h-12 w-full" type="submit">
-          {submitLabel}
+        {errorMessage ? (
+          <p className="rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+            {errorMessage}
+          </p>
+        ) : null}
+        <Button className="h-12 w-full" type="submit" form={formId} disabled={isSubmitting}>
+          {isSubmitting ? (submittingLabel ?? 'Submitting...') : submitLabel}
         </Button>
         <p className="text-center text-sm text-gray-700">
           {footerText}{' '}

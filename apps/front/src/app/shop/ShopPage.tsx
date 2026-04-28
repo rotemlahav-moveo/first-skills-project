@@ -1,13 +1,20 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useState } from 'react';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
 import { SiteFooter } from '../home/components/SiteFooter';
 import { SiteHeader } from '../home/components/SiteHeader';
 import { useCart } from '../cart/CartContext';
 import { filterProducts, sortProducts } from './filterProducts';
+import {
+  defaultShopFiltersFormValues,
+  toFilterSelections,
+} from './formConfig';
+import { shopFiltersFormSchema, type ShopFiltersFormInput, type ShopFiltersFormValues } from './formSchema';
 import { SHOP_PRODUCTS } from './mockProducts';
 import { ShopFiltersPanel } from './components/ShopFiltersPanel';
 import { ShopPageHeaderSection } from './sections/ShopPageHeaderSection';
 import { ShopProductsSection } from './sections/ShopProductsSection';
-import type { FilterSectionTitle, FilterSelections, ShopProduct, SortOption } from './types';
+import type { ShopProduct } from './types';
 
 const pageTitle = 'All Products';
 
@@ -18,32 +25,20 @@ function defaultSizeForCart(product: ShopProduct): string {
 
 export function ShopPage() {
   const { addToCart } = useCart();
-  const [sort, setSort] = useState<SortOption>('featured');
-  const [selections, setSelections] = useState<FilterSelections>({});
   const [showMobileFilters, setShowMobileFilters] = useState(false);
-
-  const filtered = useMemo(() => filterProducts(SHOP_PRODUCTS, selections), [selections]);
-  const sortedProducts = useMemo(() => sortProducts(filtered, sort), [filtered, sort]);
-
-  const toggleFilter = useCallback((section: FilterSectionTitle, option: string, checked: boolean) => {
-    setSelections((previous) => {
-      const current = previous[section] ?? [];
-      const nextOptions = checked
-        ? [...new Set([...current, option])]
-        : current.filter((item) => item !== option);
-      const next: FilterSelections = { ...previous };
-      if (nextOptions.length === 0) {
-        delete next[section];
-      } else {
-        next[section] = nextOptions;
-      }
-      return next;
-    });
-  }, []);
+  const { control, watch, setValue } = useForm<ShopFiltersFormInput, undefined, ShopFiltersFormValues>({
+    resolver: zodResolver(shopFiltersFormSchema),
+    defaultValues: defaultShopFiltersFormValues,
+  });
+  const sort = watch('sort');
+  const filters = watch('filters');
+  const selections = toFilterSelections(filters);
+  const filtered = filterProducts(SHOP_PRODUCTS, selections);
+  const sortedProducts = sortProducts(filtered, sort);
 
   const clearFilters = useCallback(() => {
-    setSelections({});
-  }, []);
+    setValue('filters', defaultShopFiltersFormValues.filters);
+  }, [setValue]);
 
   const handleAddToCart = useCallback(
     (product: ShopProduct) => {
@@ -66,8 +61,7 @@ export function ShopPage() {
         <div className="mx-auto w-full max-w-[1440px] px-8">
           <ShopPageHeaderSection
             title={pageTitle}
-            sort={sort}
-            onSortChange={setSort}
+            control={control}
             onOpenMobileFilters={() => setShowMobileFilters(true)}
           />
 
@@ -75,8 +69,7 @@ export function ShopPage() {
             <aside className="hidden w-64 shrink-0 lg:block">
               <div className="sticky top-24">
                 <ShopFiltersPanel
-                  selections={selections}
-                  onToggleOption={toggleFilter}
+                  control={control}
                   onClearAll={clearFilters}
                 />
               </div>
@@ -112,8 +105,7 @@ export function ShopPage() {
                   </button>
                 </div>
                 <ShopFiltersPanel
-                  selections={selections}
-                  onToggleOption={toggleFilter}
+                  control={control}
                   onClearAll={clearFilters}
                 />
               </div>

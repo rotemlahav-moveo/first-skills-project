@@ -5,8 +5,32 @@ standards:
     title: New Section Component Hierarchy
     path: frontend/new-section-component-hierarchy.md
     summary: Every new UI section must be extracted into a separate component and placed with clear architecture and hierarchy.
+  - id: frontend/forms-rhf-config-standard
+    title: Frontend Forms RHF Config Standard
+    path: frontend/forms-rhf-config-standard.md
+    summary: Build all frontend forms with React Hook Form and Zod, and render fields from typed config arrays via shared reusable components.
+  - id: frontend/redux-rtk-query-api-standard
+    title: Frontend Redux RTK Query API Standard
+    path: frontend/redux-rtk-query-api-standard.md
+    summary: Implement all frontend backend API calls through RTK Query with a shared base API and feature endpoint injection.
   - id: backend/feature-structure
     title: Backend Feature Structure
     path: backend/feature-structure.md
     summary: Organize each backend feature by controllers, services, dto, and entities with a feature module at the root.
+  - id: global/shared-code-in-libs
+    title: Shared Code In Libs
+    path: global/shared-code-in-libs.md
+    summary: Place all reusable or cross-app code in libs and keep apps focused on app-specific wiring.
+  - id: global/use-switch-for-discriminated-branches
+    title: Use Switch For Discriminated Branches
+    path: global/use-switch-for-discriminated-branches.md
+    summary: Prefer switch statements over if/else chains when branching on one discriminated value like kind/type/status.
+  - id: global/extract-repeated-literals-to-enums
+    title: Extract Repeated Literals To Enums
+    path: global/extract-repeated-literals-to-enums.md
+    summary: Promote repeated domain literals into shared enums or const maps and reuse them instead of duplicating magic strings.
+  - id: global/split-zod-schema-into-schema-files
+    title: Split Zod Schemas Into Schema Files
+    path: global/split-zod-schema-into-schema-files.md
+    summary: Keep Zod schema declarations in dedicated schema files and keep form/UI config files focused on rendering configuration.
 

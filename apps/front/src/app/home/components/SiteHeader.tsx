@@ -1,7 +1,10 @@
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import { useAuth } from '@/app/auth/AuthContext';
 
 export function SiteHeader() {
+  const { user, signOut } = useAuth();
+
   return (
     <header className="sticky top-0 z-40 border-b border-gray-300 bg-white">
       <div className="mx-auto flex w-full max-w-[1440px] items-center gap-6 px-8 py-4">
@@ -36,9 +39,15 @@ export function SiteHeader() {
           </ul>
         </nav>
 
-        <Button asChild size="sm" className="h-10 px-4">
-          <Link to="/sign-in">Sign in</Link>
-        </Button>
+        {user ? (
+          <Button type="button" size="sm" className="h-10 px-4" onClick={signOut}>
+            Sign out
+          </Button>
+        ) : (
+          <Button asChild size="sm" className="h-10 px-4">
+            <Link to="/sign-in">Sign in</Link>
+          </Button>
+        )}
       </div>
     </header>
   );

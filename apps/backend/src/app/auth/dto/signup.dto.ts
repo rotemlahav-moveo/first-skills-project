@@ -1,4 +1,3 @@
-export interface SignupDto {
-  email: string;
-  password: string;
-}
+import type { SignupRequest } from '../../../../../../libs/shared/auth-contracts/src';
+
+export type SignupDto = SignupRequest;

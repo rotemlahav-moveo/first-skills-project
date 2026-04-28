@@ -1,8 +1,11 @@
 import { StrictMode } from 'react';
+import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import * as ReactDOM from 'react-dom/client';
+import { AuthProvider } from './app/auth/AuthContext';
 import App from './app/app';
 import { CartProvider } from './app/cart/CartContext';
+import { store } from './redux/store';
 import './styles/index.css';
 
 const root = ReactDOM.createRoot(
@@ -11,10 +14,14 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <StrictMode>
-    <BrowserRouter>
-      <CartProvider>
-        <App />
-      </CartProvider>
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <AuthProvider>
+          <CartProvider>
+            <App />
+          </CartProvider>
+        </AuthProvider>
+      </BrowserRouter>
+    </Provider>
   </StrictMode>,
 );

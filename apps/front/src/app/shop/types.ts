@@ -13,8 +13,19 @@ export type ShopProduct = {
   newness: number;
 };
 
-export type SortOption = 'featured' | 'price-asc' | 'price-desc' | 'newest';
+export enum SortOption {
+  featured = 'featured',
+  priceAsc = 'price-asc',
+  priceDesc = 'price-desc',
+  newest = 'newest',
+}
 
-export type FilterSectionTitle = 'Category' | 'Size' | 'Color' | 'Price Range' | 'Brand';
+export enum FilterSectionTitle {
+  Category = 'Category',
+  Size = 'Size',
+  Color = 'Color',
+  PriceRange = 'Price Range',
+  Brand = 'Brand',
+}
 
 export type FilterSelections = Partial<Record<FilterSectionTitle, string[]>>;
