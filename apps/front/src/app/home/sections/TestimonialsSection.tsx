@@ -1,26 +1,25 @@
-import { Check } from 'lucide-react';
+import { Card, CardContent } from '@/components/ui/card';
 import { SectionHeading } from '../components/SectionHeading';
 
 export function TestimonialsSection() {
-  const steps = [
-    'Browse quality fashion items',
-    'Add items to favorites',
-    'Easy checkout process',
-    'Free shipping over $100',
+  const testimonials = [
+    { name: 'Customer A', quote: 'Great quality and fast shipping!' },
+    { name: 'Customer B', quote: 'Love the selection and prices.' },
+    { name: 'Customer C', quote: 'Best online fashion store!' },
   ];
 
   return (
-    <section className="border-b border-gray-300 bg-gray-100 py-16 md:py-24" id="how-it-works" aria-labelledby="how-it-works-title">
+    <section className="border-b border-gray-300 py-16 md:py-24" id="testimonials" aria-labelledby="testimonials-title">
       <div className="mx-auto w-full max-w-[1440px] px-8">
-        <SectionHeading center title="How It Works" />
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-          {steps.map((step) => (
-            <div key={step} className="flex flex-col items-center text-center">
-              <div className="mb-4 flex h-16 w-16 items-center justify-center bg-gray-900 text-white">
-                <Check className="h-8 w-8" />
-              </div>
-              <p className="text-gray-700">{step}</p>
-            </div>
+        <SectionHeading center title="What Our Customers Say" />
+        <div className="grid gap-8 md:grid-cols-3">
+          {testimonials.map((testimonial) => (
+            <Card key={testimonial.name} className="border-gray-300 bg-gray-50 shadow-none">
+              <CardContent className="p-8">
+                <p className="mb-6 text-gray-700">&quot;{testimonial.quote}&quot;</p>
+                <p className="text-gray-900">- {testimonial.name}</p>
+              </CardContent>
+            </Card>
           ))}
         </div>
       </div>

@@ -1,6 +1,9 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { useSearchParams } from 'react-router-dom';
+import { ProductDepartment, type ProductDepartment as ProductDepartmentValue } from '@shared/products-contracts';
+import { useGetProductsQuery } from '../../redux/productsApi/productsApi';
 import { SiteFooter } from '../home/components/SiteFooter';
 import { SiteHeader } from '../home/components/SiteHeader';
 import { useCart } from '../cart/CartContext';
@@ -10,7 +13,7 @@ import {
   toFilterSelections,
 } from './formConfig';
 import { shopFiltersFormSchema, type ShopFiltersFormInput, type ShopFiltersFormValues } from './formSchema';
-import { SHOP_PRODUCTS } from './mockProducts';
+import { mapProductDtoToShopProduct } from './mapProductDto';
 import { ShopFiltersPanel } from './components/ShopFiltersPanel';
 import { ShopPageHeaderSection } from './sections/ShopPageHeaderSection';
 import { ShopProductsSection } from './sections/ShopProductsSection';
@@ -25,7 +28,20 @@ function defaultSizeForCart(product: ShopProduct): string {
 
 export function ShopPage() {
   const { addToCart } = useCart();
+  const [searchParams] = useSearchParams();
   const [showMobileFilters, setShowMobileFilters] = useState(false);
+  const requestedDepartment = searchParams.get('department');
+  const department =
+    requestedDepartment && (Object.values(ProductDepartment) as string[]).includes(requestedDepartment)
+      ? (requestedDepartment as ProductDepartmentValue)
+      : undefined;
+  const { data: productDtos, isLoading, isError } = useGetProductsQuery(
+    department ? { department } : undefined,
+  );
+  const products = useMemo(
+    () => (productDtos ?? []).map(mapProductDtoToShopProduct),
+    [productDtos],
+  );
   const { control, watch, setValue } = useForm<ShopFiltersFormInput, undefined, ShopFiltersFormValues>({
     resolver: zodResolver(shopFiltersFormSchema),
     defaultValues: defaultShopFiltersFormValues,
@@ -33,7 +49,7 @@ export function ShopPage() {
   const sort = watch('sort');
   const filters = watch('filters');
   const selections = toFilterSelections(filters);
-  const filtered = filterProducts(SHOP_PRODUCTS, selections);
+  const filtered = filterProducts(products, selections);
   const sortedProducts = sortProducts(filtered, sort);
 
   const clearFilters = useCallback(() => {
@@ -76,7 +92,13 @@ export function ShopPage() {
             </aside>
 
             <div className="min-w-0 flex-1">
-              <ShopProductsSection products={sortedProducts} onAddToCart={handleAddToCart} />
+              {isLoading ? (
+                <p className="py-12 text-center text-sm text-gray-600">Loading products…</p>
+              ) : isError ? (
+                <p className="py-12 text-center text-sm text-red-600">Failed to load products.</p>
+              ) : (
+                <ShopProductsSection products={sortedProducts} onAddToCart={handleAddToCart} />
+              )}
             </div>
           </div>
         </div>

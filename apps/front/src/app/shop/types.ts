@@ -1,4 +1,5 @@
 export type ShopCategory = 'Tops' | 'Bottoms' | 'Dresses' | 'Outerwear' | 'Shoes';
+export type ShopDepartment = 'men' | 'woman' | 'accessories';
 
 export type ShopProduct = {
   id: string;
@@ -9,8 +10,9 @@ export type ShopProduct = {
   color: string;
   brand: string;
   imageUrl: string;
-  /** Higher = newer for “Newest” sort */
-  newness: number;
+  /** ISO timestamp; later date = newer for "Newest" sort */
+  createdAt: string;
+  department: ShopDepartment | null;
 };
 
 export enum SortOption {

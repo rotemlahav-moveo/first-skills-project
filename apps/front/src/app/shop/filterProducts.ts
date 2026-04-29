@@ -54,7 +54,7 @@ export function sortProducts(products: ShopProduct[], sort: SortOption): ShopPro
     case 'price-desc':
       return copy.sort((a, b) => b.price - a.price);
     case 'newest':
-      return copy.sort((a, b) => b.newness - a.newness);
+      return copy.sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt));
     case 'featured':
     default:
       return copy;

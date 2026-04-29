@@ -4,14 +4,14 @@ type ProductCardProps = {
   name: string;
   category: string;
   price: string;
-  accent: string;
+  imageUrl: string;
 };
 
-export function ProductCard({ name, category, price, accent }: ProductCardProps) {
+export function ProductCard({ name, category, price, imageUrl }: ProductCardProps) {
   return (
     <Card className="overflow-hidden border-gray-300 bg-white shadow-none transition hover:bg-gray-50">
-      <div className="mb-3 aspect-[3/4] border-b border-gray-300" style={{ background: accent }} aria-hidden>
-        <div className="flex h-full items-center justify-center text-sm text-gray-600">Product Image</div>
+      <div className="mb-3 aspect-[3/4] overflow-hidden border-b border-gray-300 bg-gray-200">
+        <img src={imageUrl} alt={name} className="h-full w-full object-cover" />
       </div>
       <CardContent className="grid gap-2 p-4 pt-0">
         <p className="text-xs uppercase tracking-wide text-gray-600">{category}</p>
