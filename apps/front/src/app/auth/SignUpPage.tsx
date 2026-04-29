@@ -15,7 +15,7 @@ export function SignUpPage() {
   const navigate = useNavigate();
   const { setSession } = useAuth();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [signup, { isLoading: isSignupLoading }] = useSignupMutation();
+  const [signup, { isLoading: isSignupLoading,  }] = useSignupMutation();
   const {
     control,
     handleSubmit,

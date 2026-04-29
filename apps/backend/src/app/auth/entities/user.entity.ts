@@ -2,9 +2,12 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Order } from '../../cart/entities/order.entity';
+import { Wishlist } from '../../wishlist/entities/wishlist.entity';
 
 @Entity({ name: 'users' }) //users is the name of the table in the database
 export class UserEntity {
@@ -28,4 +31,10 @@ export class UserEntity {
 
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt!: Date;
+
+  @OneToMany(() => Order, (order) => order.user)
+  orders!: Order[];
+
+  @OneToMany(() => Wishlist, (wishlist) => wishlist.user)
+  wishlistItems!: Wishlist[];
 }
