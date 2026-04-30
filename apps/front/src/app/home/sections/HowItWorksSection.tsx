@@ -2,7 +2,7 @@ import { Check } from 'lucide-react';
 import { SectionHeading } from '../components/SectionHeading';
 
 export function HowItWorksSection() {
-  const steps = [
+  const steps: string[] = [
     'Browse quality fashion items',
     'Add items to favorites',
     'Easy checkout process',

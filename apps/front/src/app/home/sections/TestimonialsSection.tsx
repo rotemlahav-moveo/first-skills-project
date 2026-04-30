@@ -2,7 +2,12 @@ import { Card, CardContent } from '@/components/ui/card';
 import { SectionHeading } from '../components/SectionHeading';
 
 export function TestimonialsSection() {
-  const testimonials = [
+  type Testimonial = {
+    name: string;
+    quote: string;
+  };
+  
+  const testimonials: Testimonial[] = [
     { name: 'Customer A', quote: 'Great quality and fast shipping!' },
     { name: 'Customer B', quote: 'Love the selection and prices.' },
     { name: 'Customer C', quote: 'Best online fashion store!' },

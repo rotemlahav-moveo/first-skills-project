@@ -1,31 +1,22 @@
-export const ProductDepartment = {
-  men: 'men',
-  woman: 'woman',
-  accessories: 'accessories',
-} as const;
-
-export type ProductDepartment = (typeof ProductDepartment)[keyof typeof ProductDepartment];
-
-export type ProductCategoryDto = {
-  categoryId: string;
-  categoryName: string;
-};
-
-export type ProductDepartmentDto = {
+export type DepartmentDto = {
   departmentId: string;
-  departmentName: ProductDepartment;
+  departmentName: string;
+  slug: string;
+  imageUrl: string;
 };
+
+export type DepartmentDetailsDto = DepartmentDto;
 
 export type ProductDto = {
-  productId: string;
-  productName: string;
+  id: string;
+  name: string;
   description: string;
   price: number;
+  category: string;
+  department: string | null;
   sizes: string[];
   color: string;
   brand: string;
   imageUrl: string;
   createdAt: string;
-  category: ProductCategoryDto;
-  department: ProductDepartmentDto | null;
 };

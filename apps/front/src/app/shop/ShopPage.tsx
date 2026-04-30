@@ -2,7 +2,6 @@ import { useCallback, useMemo, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useSearchParams } from 'react-router-dom';
-import { ProductDepartment, type ProductDepartment as ProductDepartmentValue } from '@shared/products-contracts';
 import { useGetProductsQuery } from '../../redux/productsApi/productsApi';
 import { SiteFooter } from '../home/components/SiteFooter';
 import { SiteHeader } from '../home/components/SiteHeader';
@@ -13,7 +12,6 @@ import {
   toFilterSelections,
 } from './formConfig';
 import { shopFiltersFormSchema, type ShopFiltersFormInput, type ShopFiltersFormValues } from './formSchema';
-import { mapProductDtoToShopProduct } from './mapProductDto';
 import { ShopFiltersPanel } from './components/ShopFiltersPanel';
 import { ShopPageHeaderSection } from './sections/ShopPageHeaderSection';
 import { ShopProductsSection } from './sections/ShopProductsSection';
@@ -31,17 +29,11 @@ export function ShopPage() {
   const [searchParams] = useSearchParams();
   const [showMobileFilters, setShowMobileFilters] = useState(false);
   const requestedDepartment = searchParams.get('department');
-  const department =
-    requestedDepartment && (Object.values(ProductDepartment) as string[]).includes(requestedDepartment)
-      ? (requestedDepartment as ProductDepartmentValue)
-      : undefined;
+  const department = requestedDepartment?.trim().toLowerCase() || undefined;
   const { data: productDtos, isLoading, isError } = useGetProductsQuery(
     department ? { department } : undefined,
   );
-  const products = useMemo(
-    () => (productDtos ?? []).map(mapProductDtoToShopProduct),
-    [productDtos],
-  );
+  const products = useMemo(() => productDtos ?? [], [productDtos]);
   const { control, watch, setValue } = useForm<ShopFiltersFormInput, undefined, ShopFiltersFormValues>({
     resolver: zodResolver(shopFiltersFormSchema),
     defaultValues: defaultShopFiltersFormValues,

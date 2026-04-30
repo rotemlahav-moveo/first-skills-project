@@ -1,4 +1,4 @@
-import { AuthEntrySection } from './sections/AuthEntrySection';
+import { JoinUsSection } from './sections/JoinUsSection';
 import { CollectionsSection } from './sections/CollectionsSection';
 import { HeroSection } from './sections/HeroSection';
 import { HowItWorksSection } from './sections/HowItWorksSection';
@@ -18,7 +18,7 @@ export function HomePage() {
         <ProductsSection />
         <HowItWorksSection />
         <TestimonialsSection />
-        <AuthEntrySection />
+        <JoinUsSection />
       </main>
 
       <SiteFooter />

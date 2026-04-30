@@ -1,15 +1,21 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import {
-  ProductDepartment,
-  type ProductDepartment as ProductDepartmentValue,
+  type DepartmentDetailsDto,
   type ProductDto,
 } from '../../../../../../libs/shared/products-contracts/src';
+import { Department } from '../entities/department.entity';
 import { Product } from '../entities/product.entity';
 import { ProductsService } from '../services/products.service';
 
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
+
+  @Get('departments')
+  async findAllDepartments(): Promise<DepartmentDetailsDto[]> {
+    const departments = await this.productsService.findAllDepartments();
+    return departments.map((department) => this.toDepartmentDto(department));
+  }
 
   @Get()
   async findAll(@Query('department') rawDepartment?: string): Promise<ProductDto[]> {
@@ -19,38 +25,37 @@ export class ProductsController {
 
   private toProductDto(product: Product): ProductDto {
     return {
-      productId: product.productId,
-      productName: product.productName,
+      id: product.productId,
+      name: product.productName,
       description: product.description,
       // Postgres `numeric` is returned as string by node-postgres; coerce to number.
       price: Number(product.price),
+      category: product.category.categoryName,
+      department: product.department?.departmentName ?? null,
       sizes: product.sizes ?? [],
       color: product.color,
       brand: product.brand,
       imageUrl: product.imageUrl,
       createdAt: product.createdAt.toISOString(),
-      category: {
-        categoryId: product.category.categoryId,
-        categoryName: product.category.categoryName,
-      },
-      department: product.department
-        ? {
-            departmentId: product.department.departmentId,
-            departmentName: product.department.departmentName as ProductDepartmentValue,
-          }
-        : null,
+    };
+  }
+
+  private toDepartmentDto(department: Department): DepartmentDetailsDto {
+    return {
+      departmentId: department.departmentId,
+      departmentName: department.departmentName,
+      slug: department.slug,
+      imageUrl: department.imageUrl,
     };
   }
 
   // parse the department from the query parameter ( GET /products?department=men )
-  private parseDepartment(value?: string): ProductDepartmentValue | undefined {
+  private parseDepartment(value?: string): string | undefined {
     if (!value) {
       return undefined;
     }
 
     const normalized = value.trim().toLowerCase();
-    return (Object.values(ProductDepartment) as string[]).includes(normalized)
-      ? (normalized as ProductDepartmentValue)
-      : undefined;
+    return normalized.length > 0 ? normalized : undefined;
   }
 }

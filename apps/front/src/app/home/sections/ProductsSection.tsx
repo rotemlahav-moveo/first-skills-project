@@ -30,10 +30,10 @@ export function ProductsSection() {
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             {featuredProducts.map((product) => (
               <ProductCard
-                key={product.productId}
-                name={product.productName}
-                category={product.category.categoryName}
-                price={`$${Number(product.price).toFixed(2)}`}
+                key={product.id}
+                name={product.name}
+                category={product.category}
+                price={`$${product.price.toFixed(2)}`}
                 imageUrl={product.imageUrl}
               />
             ))}

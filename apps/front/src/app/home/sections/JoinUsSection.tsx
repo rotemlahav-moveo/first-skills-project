@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 
-export function AuthEntrySection() {
+export function JoinUsSection() {
   return (
     <section className="bg-gray-100 py-16 text-center md:py-24" aria-labelledby="auth-entry-title">
       <div className="mx-auto w-full max-w-[1440px] px-8">
