@@ -51,8 +51,8 @@ export function ShopPage() {
   const handleAddToCart = useCallback(
     (product: ShopProduct) => {
       addToCart({
-        id: product.id,
-        name: product.name,
+        id: product.productId,
+        name: product.productName,
         color: product.color,
         size: defaultSizeForCart(product),
         price: product.price,

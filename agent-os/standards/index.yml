@@ -21,6 +21,10 @@ standards:
     title: Shared Code In Libs
     path: global/shared-code-in-libs.md
     summary: Place all reusable or cross-app code in libs and keep apps focused on app-specific wiring.
+  - id: global/avoid-unnecessary-mapping-align-model-names
+    title: Avoid Unnecessary Mapping And Align Model Names
+    path: global/avoid-unnecessary-mapping-align-model-names.md
+    summary: Avoid boilerplate renaming mappers by aligning entity, DTO, and frontend model names; keep only necessary boundary transformations.
   - id: global/use-switch-for-discriminated-branches
     title: Use Switch For Discriminated Branches
     path: global/use-switch-for-discriminated-branches.md

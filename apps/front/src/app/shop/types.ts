@@ -1,8 +1,7 @@
 import type { ProductDto } from '@shared/products-contracts';
 
-export type ShopCategory = ProductDto['category'];
-export type ShopDepartment = NonNullable<ProductDto['department']>;
-
+export type ShopCategory = ProductDto['category']['categoryName'];
+export type ShopDepartment = NonNullable<ProductDto['department']>['departmentName'];
 export type ShopProduct = ProductDto;
 
 export enum SortOption {

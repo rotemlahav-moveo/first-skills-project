@@ -25,17 +25,9 @@ export class ProductsController {
 
   private toProductDto(product: Product): ProductDto {
     return {
-      id: product.productId,
-      name: product.productName,
-      description: product.description,
+      ...product,
       // Postgres `numeric` is returned as string by node-postgres; coerce to number.
       price: Number(product.price),
-      category: product.category.categoryName,
-      department: product.department?.departmentName ?? null,
-      sizes: product.sizes ?? [],
-      color: product.color,
-      brand: product.brand,
-      imageUrl: product.imageUrl,
       createdAt: product.createdAt.toISOString(),
     };
   }

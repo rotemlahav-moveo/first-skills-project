@@ -18,7 +18,7 @@ function matchesPriceRange(price: number, label: string): boolean {
 export function filterProducts(products: ShopProduct[], selections: FilterSelections): ShopProduct[] {
   return products.filter((product) => {
     const categories = selections.Category ?? [];
-    if (categories.length > 0 && !categories.includes(product.category)) {
+    if (categories.length > 0 && !categories.includes(product.category.categoryName)) {
       return false;
     }
 

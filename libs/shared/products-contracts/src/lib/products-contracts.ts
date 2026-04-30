@@ -7,13 +7,18 @@ export type DepartmentDto = {
 
 export type DepartmentDetailsDto = DepartmentDto;
 
+export type CategoryDto = {
+  categoryId: string;
+  categoryName: string;
+};
+
 export type ProductDto = {
-  id: string;
-  name: string;
+  productId: string;
+  productName: string;
   description: string;
   price: number;
-  category: string;
-  department: string | null;
+  category: CategoryDto;
+  department: DepartmentDto | null;
   sizes: string[];
   color: string;
   brand: string;
