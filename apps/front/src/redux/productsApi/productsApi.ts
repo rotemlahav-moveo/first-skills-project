@@ -21,7 +21,13 @@ export const productsApi = baseApi.injectEndpoints({
         params: args?.department ? { department: args.department } : undefined,
       }),
     }),
+    getProductById: builder.query<ProductDto, string>({
+      query: (productId) => ({
+        url: `/products/${productId}`,
+        method: 'GET',
+      }),
+    }),
   }),
 });
 
-export const { useGetDepartmentsQuery, useGetProductsQuery } = productsApi;
+export const { useGetDepartmentsQuery, useGetProductsQuery, useGetProductByIdQuery } = productsApi;

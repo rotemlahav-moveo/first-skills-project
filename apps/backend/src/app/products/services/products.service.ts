@@ -27,6 +27,13 @@ export class ProductsService {
     });
   }
 
+  findById(productId: string): Promise<Product | null> {
+    return this.productsRepository.findOne({
+      where: { productId },
+      relations: { category: true, department: true },
+    });
+  }
+
   findAllDepartments(): Promise<Department[]> {
     return this.departmentsRepository.find({
       order: { departmentName: 'ASC' },

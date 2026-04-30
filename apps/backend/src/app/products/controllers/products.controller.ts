@@ -1,4 +1,4 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, NotFoundException, Param, Query } from '@nestjs/common';
 import {
   type DepartmentDetailsDto,
   type ProductDto,
@@ -21,6 +21,15 @@ export class ProductsController {
   async findAll(@Query('department') rawDepartment?: string): Promise<ProductDto[]> {
     const products = await this.productsService.findAll(this.parseDepartment(rawDepartment));
     return products.map((product) => this.toProductDto(product));
+  }
+
+  @Get(':productId')
+  async findOne(@Param('productId') productId: string): Promise<ProductDto> {
+    const product = await this.productsService.findById(productId);
+    if (!product) {
+      throw new NotFoundException('Product not found');
+    }
+    return this.toProductDto(product);
   }
 
   private toProductDto(product: Product): ProductDto {

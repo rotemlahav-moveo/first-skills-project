@@ -35,6 +35,7 @@ export function ProductsSection() {
                 category={product.category.categoryName}
                 price={`$${product.price.toFixed(2)}`}
                 imageUrl={product.imageUrl}
+                to={`/product/${product.productId}`}
               />
             ))}
           </div>
