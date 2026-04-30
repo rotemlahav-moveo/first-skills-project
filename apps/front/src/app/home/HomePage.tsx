@@ -1,8 +1,8 @@
-import { AuthEntrySection } from './sections/AuthEntrySection';
-import { FeaturesSection } from './sections/FeaturesSection';
+import { JoinUsSection } from './sections/JoinUsSection';
+import { CollectionsSection } from './sections/CollectionsSection';
 import { HeroSection } from './sections/HeroSection';
 import { HowItWorksSection } from './sections/HowItWorksSection';
-import { MembershipSection } from './sections/MembershipSection';
+import { ProductsSection } from './sections/ProductsSection';
 import { TestimonialsSection } from './sections/TestimonialsSection';
 import { SiteFooter } from './components/SiteFooter';
 import { SiteHeader } from './components/SiteHeader';
@@ -14,11 +14,11 @@ export function HomePage() {
 
       <main className="bg-white">
         <HeroSection />
-        <FeaturesSection />
+        <CollectionsSection />
+        <ProductsSection />
         <HowItWorksSection />
         <TestimonialsSection />
-        <MembershipSection />
-        <AuthEntrySection />
+        <JoinUsSection />
       </main>
 
       <SiteFooter />

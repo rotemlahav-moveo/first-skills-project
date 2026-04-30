@@ -5,6 +5,7 @@ import { SignUpPage } from './auth/SignUpPage';
 import { ForgotPasswordPage } from './auth/ForgotPasswordPage';
 import { CartPage } from './cart/CartPage';
 import { ShopPage } from './shop/ShopPage';
+import { ProductCardPage } from './productCardPage/ProductCardPage';
 
 export function App() {
   return (
@@ -15,6 +16,7 @@ export function App() {
       <Route path="/forgot-password" element={<ForgotPasswordPage />} />
       <Route path="/cart" element={<CartPage />} />
       <Route path="/shop" element={<ShopPage />} />
+      <Route path="/product/:productId" element={<ProductCardPage />} />
     </Routes>
   );
 }

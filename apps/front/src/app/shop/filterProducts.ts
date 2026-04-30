@@ -18,7 +18,7 @@ function matchesPriceRange(price: number, label: string): boolean {
 export function filterProducts(products: ShopProduct[], selections: FilterSelections): ShopProduct[] {
   return products.filter((product) => {
     const categories = selections.Category ?? [];
-    if (categories.length > 0 && !categories.includes(product.category)) {
+    if (categories.length > 0 && !categories.includes(product.category.categoryName)) {
       return false;
     }
 
@@ -54,7 +54,7 @@ export function sortProducts(products: ShopProduct[], sort: SortOption): ShopPro
     case 'price-desc':
       return copy.sort((a, b) => b.price - a.price);
     case 'newest':
-      return copy.sort((a, b) => b.newness - a.newness);
+      return copy.sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt));
     case 'featured':
     default:
       return copy;

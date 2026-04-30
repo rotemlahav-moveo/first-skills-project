@@ -1,17 +1,8 @@
-export type ShopCategory = 'Tops' | 'Bottoms' | 'Dresses' | 'Outerwear' | 'Shoes';
+import type { ProductDto } from '@shared/products-contracts';
 
-export type ShopProduct = {
-  id: string;
-  name: string;
-  price: number;
-  category: ShopCategory;
-  sizes: string[];
-  color: string;
-  brand: string;
-  imageUrl: string;
-  /** Higher = newer for “Newest” sort */
-  newness: number;
-};
+export type ShopCategory = ProductDto['category']['categoryName'];
+export type ShopDepartment = NonNullable<ProductDto['department']>['departmentName'];
+export type ShopProduct = ProductDto;
 
 export enum SortOption {
   featured = 'featured',
