@@ -1,31 +1,26 @@
-import { ArrowRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { ProductCard } from '../components/ProductCard';
+import { Check } from 'lucide-react';
 import { SectionHeading } from '../components/SectionHeading';
 
-const featuredProducts = [
-  { name: 'Product Name 1', category: 'Featured', price: '$89.99', accent: '#e5e7eb' },
-  { name: 'Product Name 2', category: 'Featured', price: '$129.99', accent: '#d1d5db' },
-  { name: 'Product Name 3', category: 'Featured', price: '$69.99', accent: '#e5e7eb' },
-  { name: 'Product Name 4', category: 'Featured', price: '$149.99', accent: '#d1d5db' },
-];
-
 export function HowItWorksSection() {
+  const steps: string[] = [
+    'Browse quality fashion items',
+    'Add items to favorites',
+    'Easy checkout process',
+    'Free shipping over $100',
+  ];
+
   return (
-    <section className="border-b border-gray-300 py-16 md:py-24" id="featured-products" aria-labelledby="products-title">
+    <section className="border-b border-gray-300 bg-gray-100 py-16 md:py-24" id="how-it-works" aria-labelledby="how-it-works-title">
       <div className="mx-auto w-full max-w-[1440px] px-8">
-        <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
-          <SectionHeading title="Featured Products" />
-          <Link
-            to="/shop"
-            className="inline-flex items-center gap-2 text-gray-700 hover:text-gray-900"
-          >
-            View All <ArrowRight className="h-4 w-4" />
-          </Link>
-        </div>
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-          {featuredProducts.map((item) => (
-            <ProductCard key={item.name} {...item} />
+        <SectionHeading center title="How It Works" />
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+          {steps.map((step) => (
+            <div key={step} className="flex flex-col items-center text-center">
+              <div className="mb-4 flex h-16 w-16 items-center justify-center bg-gray-900 text-white">
+                <Check className="h-8 w-8" />
+              </div>
+              <p className="text-gray-700">{step}</p>
+            </div>
           ))}
         </div>
       </div>
