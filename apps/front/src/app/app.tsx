@@ -4,6 +4,7 @@ import { SignInPage } from './auth/SignInPage';
 import { SignUpPage } from './auth/SignUpPage';
 import { ForgotPasswordPage } from './auth/ForgotPasswordPage';
 import { CartPage } from './cart/CartPage';
+import { FavoritesPage } from './favorites/FavoritesPage';
 import { ShopPage } from './shop/ShopPage';
 import { ProductCardPage } from './productCardPage/ProductCardPage';
 
@@ -15,6 +16,7 @@ export function App() {
       <Route path="/sign-up" element={<SignUpPage />} />
       <Route path="/forgot-password" element={<ForgotPasswordPage />} />
       <Route path="/cart" element={<CartPage />} />
+      <Route path="/favorites" element={<FavoritesPage />} />
       <Route path="/shop" element={<ShopPage />} />
       <Route path="/product/:productId" element={<ProductCardPage />} />
     </Routes>
