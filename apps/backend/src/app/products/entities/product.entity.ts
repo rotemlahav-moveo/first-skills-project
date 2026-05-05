@@ -29,12 +29,12 @@ export class Product {
   sizes!: string[];
 
   @Column()
-  color!: string;
+  color: string;
 
   @Column()
-  brand!: string;
+  brand: string;
 
-  @Column({ name: 'image_url' })
+ @Column({ name: 'image_url' })
   imageUrl!: string;
 
   @CreateDateColumn({ name: 'created_at' })

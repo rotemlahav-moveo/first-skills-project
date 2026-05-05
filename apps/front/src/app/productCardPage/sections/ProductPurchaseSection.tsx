@@ -6,7 +6,6 @@ type ProductPurchaseSectionProps = {
   selectedSize: string;
   quantity: number;
   isAddingToCart: boolean;
-  addToCartSuccessMessage: string | null;
   onSelectSize: (size: string) => void;
   onDecreaseQuantity: () => void;
   onIncreaseQuantity: () => void;
@@ -18,7 +17,6 @@ export function ProductPurchaseSection({
   selectedSize,
   quantity,
   isAddingToCart,
-  addToCartSuccessMessage,
   onSelectSize,
   onDecreaseQuantity,
   onIncreaseQuantity,
@@ -72,10 +70,6 @@ export function ProductPurchaseSection({
       >
         {isAddingToCart ? 'Adding to cart...' : 'Add to cart'}
       </button>
-
-      {addToCartSuccessMessage ? (
-        <p className="text-sm font-medium text-green-700">{addToCartSuccessMessage}</p>
-      ) : null}
     </section>
   );
 }
