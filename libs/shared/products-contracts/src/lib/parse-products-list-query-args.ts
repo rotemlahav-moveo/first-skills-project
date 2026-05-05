@@ -7,6 +7,19 @@ import {
 /** Same keys as {@link ProductsListQueryArgs}; values are untyped (wire / URL). */
 export type ProductsListQueryInput = Partial<Record<keyof ProductsListQueryArgs, unknown>>;
 
+// parsePositiveInt is a helper function to parse a positive integer from a value (page and limit for pagination)
+function parsePositiveInt(value: unknown): number | undefined {
+  const raw = Array.isArray(value) ? value[0] : value;
+  if (typeof raw !== 'string' && typeof raw !== 'number') {
+    return undefined;
+  }
+  const parsed = Number(raw);
+  if (!Number.isInteger(parsed) || parsed < 1) {
+    return undefined;
+  }
+  return parsed;
+}
+
 function normalizeMulti(value: unknown): string[] | undefined {
   if (value === undefined || value === null) {
     return undefined;
@@ -62,6 +75,14 @@ export function parseProductsListQueryArgs(input: ProductsListQueryInput): Produ
   const sort = sortForListArgs(input.sort);
   if (sort) {
     result.sort = sort;
+  }
+  const page = parsePositiveInt(input.page);
+  if (page) {
+    result.page = page;
+  }
+  const limit = parsePositiveInt(input.limit);
+  if (limit) {
+    result.limit = limit;
   }
   const category = normalizeMulti(input.category);
   if (category) {

@@ -7,6 +7,8 @@ export type ProductListSort = (typeof PRODUCT_LIST_SORT_VALUES)[number];
 export type ProductsListQueryArgs = Partial<{
   department: string;
   sort: ProductListSort;
+  page: number;
+  limit: number;
   category: string[];
   size: string[];
   color: string[];

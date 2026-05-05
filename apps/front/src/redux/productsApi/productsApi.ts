@@ -5,7 +5,6 @@ import type {
 } from '@shared/products-contracts';
 
 import { baseApi } from '../baseApi';
-import { buildProductsListQueryString } from './buildProductsListQueryString';
 
 export const productsApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -16,13 +15,11 @@ export const productsApi = baseApi.injectEndpoints({
       }),
     }),
     getProducts: builder.query<ProductDto[], ProductsListQueryArgs | void>({
-      query: (args) => {
-        const qs = buildProductsListQueryString(args ?? undefined);
-        return {
-          url: qs ? `/products?${qs}` : '/products',
-          method: 'GET',
-        };
-      },
+      query: (args) => ({
+        url: '/products',
+        method: 'GET',
+        params: args ?? undefined,
+      }),
     }),
     getProductById: builder.query<ProductDto, string>({
       query: (productId) => ({
