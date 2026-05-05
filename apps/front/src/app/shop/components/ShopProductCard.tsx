@@ -1,5 +1,5 @@
 import { Heart, ShoppingCart } from 'lucide-react';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { FavoriteItem } from '@/app/favorites/types';
 import { useFavorites } from '@/app/favorites/FavoritesContext';
@@ -29,18 +29,62 @@ export function ShopProductCard(props: ShopProductCardProps) {
   const navigate = useNavigate();
   const productPath = `/product/${product.productId}`;
 
+  const navigateToProduct = useCallback(() => {
+    navigate(productPath);
+  }, [navigate, productPath]);
+
+  // handle the keyboard event for the card
+  const handleCardKeyDown = useCallback(
+    (event: React.KeyboardEvent<HTMLDivElement>) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        navigateToProduct();
+      }
+    },
+    [navigateToProduct]
+  );
+
+  const removeFavorite = useCallback(() => {
+    if (isFavoritesPageGrid) {
+      props.onRemoveFromFavorites();
+      return;
+    }
+
+    toggleProduct(props.product);
+  }, [isFavoritesPageGrid, props, toggleProduct]);
+
+  const addToCart = useCallback(() => {
+    if (isFavoritesPageGrid) {
+      props.onAddToCart();
+      return;
+    }
+
+    props.onAddToCart(props.product);
+  }, [isFavoritesPageGrid, props]);
+
+  const handleFavoriteClick = useCallback(
+    (event: React.MouseEvent<HTMLButtonElement>) => {
+      event.stopPropagation();
+      removeFavorite();
+    },
+    [removeFavorite]
+  );
+
+  const handleAddToCartClick = useCallback(
+    (event: React.MouseEvent<HTMLButtonElement>) => {
+      event.stopPropagation();
+      addToCart();
+    },
+    [addToCart]
+  );
+
   return (
     <div
       className="group cursor-pointer"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      onClick={() => navigate(productPath)}
-      onKeyDown={(event) => {
-        if (event.key === 'Enter' || event.key === ' ') {
-          event.preventDefault();
-          navigate(productPath);
-        }
-      }}
+      onClick={navigateToProduct}
+      onKeyDown={handleCardKeyDown}
       role="link"
       tabIndex={0}
       aria-label={`View ${product.productName} details`}
@@ -56,14 +100,7 @@ export function ShopProductCard(props: ShopProductCardProps) {
 
         <button
           type="button"
-          onClick={(event) => {
-            event.stopPropagation();
-            if (isFavoritesPageGrid) {
-              props.onRemoveFromFavorites();
-            } else {
-              toggleProduct(props.product);
-            }
-          }}
+          onClick={handleFavoriteClick}
           className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center border border-gray-300 bg-white hover:bg-gray-50"
           aria-label={
             isFavoritesPageGrid ? 'Remove from favorites' : favorite ? 'Remove from favorites' : 'Add to favorites'
@@ -80,14 +117,7 @@ export function ShopProductCard(props: ShopProductCardProps) {
           <div className="absolute bottom-3 left-3 right-3 hidden md:block">
             <button
               type="button"
-              onClick={(event) => {
-                event.stopPropagation();
-                if (isFavoritesPageGrid) {
-                  props.onAddToCart();
-                } else {
-                  props.onAddToCart(props.product);
-                }
-              }}
+              onClick={handleAddToCartClick}
               className="flex h-10 w-full items-center justify-center gap-2 bg-gray-900 text-sm text-white hover:bg-gray-800"
             >
               <ShoppingCart className="h-4 w-4" />
@@ -104,14 +134,7 @@ export function ShopProductCard(props: ShopProductCardProps) {
 
       <button
         type="button"
-        onClick={(event) => {
-          event.stopPropagation();
-          if (isFavoritesPageGrid) {
-            props.onAddToCart();
-          } else {
-            props.onAddToCart(props.product);
-          }
-        }}
+        onClick={handleAddToCartClick}
         className="mt-3 flex h-10 w-full items-center justify-center gap-2 border border-gray-900 text-sm text-gray-900 hover:bg-gray-50 md:hidden"
       >
         <ShoppingCart className="h-4 w-4" />

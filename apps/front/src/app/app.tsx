@@ -7,19 +7,24 @@ import { CartPage } from './cart/CartPage';
 import { FavoritesPage } from './favorites/FavoritesPage';
 import { ShopPage } from './shop/ShopPage';
 import { ProductCardPage } from './productCardPage/ProductCardPage';
+import { ToastBar } from './toast/ToastBar';
+import { ROUTES } from './routes';
 
 export function App() {
   return (
-    <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/sign-in" element={<SignInPage />} />
-      <Route path="/sign-up" element={<SignUpPage />} />
-      <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-      <Route path="/cart" element={<CartPage />} />
-      <Route path="/favorites" element={<FavoritesPage />} />
-      <Route path="/shop" element={<ShopPage />} />
-      <Route path="/product/:productId" element={<ProductCardPage />} />
-    </Routes>
+    <>
+      <ToastBar />
+      <Routes>
+        <Route path={ROUTES.HOME} element={<HomePage />} />
+        <Route path={ROUTES.SIGN_IN} element={<SignInPage />} />
+        <Route path={ROUTES.SIGN_UP} element={<SignUpPage />} />
+        <Route path={ROUTES.FORGOT_PASSWORD} element={<ForgotPasswordPage />} />
+        <Route path={ROUTES.CART} element={<CartPage />} />
+        <Route path={ROUTES.FAVORITES} element={<FavoritesPage />} />
+        <Route path={ROUTES.SHOP} element={<ShopPage />} />
+        <Route path={ROUTES.PRODUCT_CARD} element={<ProductCardPage />} />
+      </Routes>
+    </>
   );
 }
 

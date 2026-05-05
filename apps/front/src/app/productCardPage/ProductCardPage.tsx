@@ -4,6 +4,7 @@ import { useGetProductByIdQuery } from '../../redux/productsApi/productsApi';
 import { useCart } from '../cart/CartContext';
 import { SiteFooter } from '../home/components/SiteFooter';
 import { SiteHeader } from '../home/components/SiteHeader';
+import { useToast } from '../toast/useToast';
 import { pickDefaultSize } from '../favorites/defaultProductSize';
 import { useFavorites } from '../favorites/FavoritesContext';
 import { ProductDescriptionSection } from './sections/ProductDescriptionSection';
@@ -13,6 +14,7 @@ import { ProductPurchaseSection } from './sections/ProductPurchaseSection';
 export function ProductCardPage() {
   const { productId } = useParams<{ productId: string }>();
   const { addToCart } = useCart();
+  const { showSuccess } = useToast();
   const { isFavorite, toggleProduct } = useFavorites();
   const { data: product, isLoading, isError } = useGetProductByIdQuery(productId ?? '', {
     skip: !productId,
@@ -21,7 +23,6 @@ export function ProductCardPage() {
   const [selectedSize, setSelectedSize] = useState<string>('');
   const [quantity, setQuantity] = useState(1);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
-  const [addToCartSuccessMessage, setAddToCartSuccessMessage] = useState<string | null>(null);
 
   const activeSize = selectedSize || defaultSize;
 
@@ -31,7 +32,6 @@ export function ProductCardPage() {
     }
 
     setIsAddingToCart(true);
-    setAddToCartSuccessMessage(null);
 
     // Keep async flow explicit so UI can show disabled/pending state.
     await Promise.resolve();
@@ -47,10 +47,7 @@ export function ProductCardPage() {
     });
 
     setIsAddingToCart(false);
-    setAddToCartSuccessMessage('Added to cart');
-    window.setTimeout(() => {
-      setAddToCartSuccessMessage(null);
-    }, 2200);
+    showSuccess('Added to cart');
   };
 
   return (
@@ -77,7 +74,6 @@ export function ProductCardPage() {
                   selectedSize={activeSize}
                   quantity={quantity}
                   isAddingToCart={isAddingToCart}
-                  addToCartSuccessMessage={addToCartSuccessMessage}
                   isFavorite={isFavorite(product.productId)}
                   onToggleFavorite={() => toggleProduct(product)}
                   onSelectSize={setSelectedSize}
