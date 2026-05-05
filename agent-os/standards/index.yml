@@ -37,4 +37,12 @@ standards:
     title: Split Zod Schemas Into Schema Files
     path: global/split-zod-schema-into-schema-files.md
     summary: Keep Zod schema declarations in dedicated schema files and keep form/UI config files focused on rendering configuration.
+  - id: global/centralize-route-path-constants
+    title: Centralize Route Path Constants
+    path: global/centralize-route-path-constants.md
+    summary: Define route paths in one constants map and reuse it everywhere instead of hardcoded route strings.
+  - id: global/keep-tsx-clean-from-logic
+    title: Keep TSX Clean From Logic
+    path: global/keep-tsx-clean-from-logic.md
+    summary: Keep TSX render-focused by extracting non-trivial logic into named functions, hooks, and derived values.
 
