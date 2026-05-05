@@ -27,6 +27,10 @@ export default defineConfig(() => ({
       ),
       '@shared/auth-domain': path.resolve(import.meta.dirname, '../../libs/shared/auth-domain/src/index.ts'),
       '@shared/form-system': path.resolve(import.meta.dirname, '../../libs/shared/form-system/src/index.ts'),
+      '@shared/products-contracts': path.resolve(
+        import.meta.dirname,
+        '../../libs/shared/products-contracts/src/index.ts',
+      ),
     },
   },
   build: {

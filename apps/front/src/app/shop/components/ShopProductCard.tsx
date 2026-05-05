@@ -21,7 +21,7 @@ export function ShopProductCard({ product, onAddToCart }: ShopProductCardProps) 
         <div className="mb-3 aspect-[3/4] overflow-hidden border border-gray-300 bg-gray-200">
           <img
             src={product.imageUrl}
-            alt={product.name}
+            alt={product.productName}
             className="h-full w-full object-cover"
           />
         </div>
@@ -52,7 +52,7 @@ export function ShopProductCard({ product, onAddToCart }: ShopProductCardProps) 
       </div>
 
       <div>
-        <h3 className="mb-2 text-sm text-gray-900">{product.name}</h3>
+        <h3 className="mb-2 text-sm text-gray-900">{product.productName}</h3>
         <p className="text-gray-700">${product.price.toFixed(2)}</p>
       </div>
       {/* Mobile Add to Cart Button */}
