@@ -29,14 +29,7 @@ export function ProductsSection() {
         ) : (
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             {featuredProducts.map((product) => (
-              <ProductCard
-                key={product.productId}
-                name={product.productName}
-                category={product.category.categoryName}
-                price={`$${product.price.toFixed(2)}`}
-                imageUrl={product.imageUrl}
-                to={`/product/${product.productId}`}
-              />
+              <ProductCard key={product.productId} product={product} />
             ))}
           </div>
         )}

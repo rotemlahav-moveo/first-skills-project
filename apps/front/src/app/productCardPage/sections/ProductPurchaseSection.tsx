@@ -1,4 +1,5 @@
 import type { ProductDto } from '@shared/products-contracts';
+import { Heart } from 'lucide-react';
 import { QuantitySelector } from '../components/QuantitySelector';
 
 type ProductPurchaseSectionProps = {
@@ -6,6 +7,9 @@ type ProductPurchaseSectionProps = {
   selectedSize: string;
   quantity: number;
   isAddingToCart: boolean;
+
+  isFavorite: boolean;
+  onToggleFavorite: () => void;
   onSelectSize: (size: string) => void;
   onDecreaseQuantity: () => void;
   onIncreaseQuantity: () => void;
@@ -17,6 +21,9 @@ export function ProductPurchaseSection({
   selectedSize,
   quantity,
   isAddingToCart,
+
+  isFavorite,
+  onToggleFavorite,
   onSelectSize,
   onDecreaseQuantity,
   onIncreaseQuantity,
@@ -24,10 +31,22 @@ export function ProductPurchaseSection({
 }: ProductPurchaseSectionProps) {
   return (
     <section className="space-y-6">
-      <div>
-        <p className="text-xs uppercase tracking-wide text-gray-500">{product.brand}</p>
-        <h1 className="mt-2 text-3xl font-medium text-gray-900">{product.productName}</h1>
-        <p className="mt-3 text-2xl text-gray-900">${product.price.toFixed(2)}</p>
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <p className="text-xs uppercase tracking-wide text-gray-500">{product.brand}</p>
+          <h1 className="mt-2 text-3xl font-medium text-gray-900">{product.productName}</h1>
+          <p className="mt-3 text-2xl text-gray-900">${product.price.toFixed(2)}</p>
+        </div>
+        <button
+          type="button"
+          onClick={onToggleFavorite}
+          className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center border border-gray-300 bg-white hover:bg-gray-50"
+          aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+        >
+          <Heart
+            className={`h-5 w-5 ${isFavorite ? 'fill-gray-900 text-gray-900' : 'text-gray-700'}`}
+          />
+        </button>
       </div>
 
       <div className="space-y-3">

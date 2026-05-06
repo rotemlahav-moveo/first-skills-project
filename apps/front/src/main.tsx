@@ -5,6 +5,7 @@ import * as ReactDOM from 'react-dom/client';
 import { AuthProvider } from './app/auth/AuthContext';
 import App from './app/app';
 import { CartProvider } from './app/cart/CartContext';
+import { FavoritesProvider } from './app/favorites/FavoritesContext';
 import { store } from './redux/store';
 import './styles/index.css';
 
@@ -17,9 +18,11 @@ root.render(
     <Provider store={store}>
       <BrowserRouter>
         <AuthProvider>
-          <CartProvider>
-            <App />
-          </CartProvider>
+          <FavoritesProvider>
+            <CartProvider>
+              <App />
+            </CartProvider>
+          </FavoritesProvider>
         </AuthProvider>
       </BrowserRouter>
     </Provider>

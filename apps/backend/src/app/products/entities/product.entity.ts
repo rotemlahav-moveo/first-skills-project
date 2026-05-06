@@ -7,7 +7,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Wishlist } from '../../wishlist/entities/wishlist.entity';
+import { Favorite } from '../../favorites/entities/favorite.entity';
 import { Category } from './category.entity';
 import { Department } from './department.entity';
 
@@ -49,6 +49,6 @@ export class Product {
   @JoinColumn({ name: 'department_id' })
   department!: Department | null;
 
-  @OneToMany(() => Wishlist, (wishlist) => wishlist.product)
-  wishlistItems!: Wishlist[];
+  @OneToMany(() => Favorite, (favorite) => favorite.product)
+  favoriteItems!: Favorite[];
 }

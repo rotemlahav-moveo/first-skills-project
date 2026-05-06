@@ -31,6 +31,10 @@ export default defineConfig(() => ({
         import.meta.dirname,
         '../../libs/shared/products-contracts/src/index.ts',
       ),
+      '@shared/favorites-contracts': path.resolve(
+        import.meta.dirname,
+        '../../libs/shared/favorites-contracts/src/index.ts',
+      ),
     },
   },
   build: {

@@ -5,6 +5,7 @@ import { baseApi } from './baseApi';
 import './authApi/authApi';
 import './productsApi/productsApi';
 import { toastReducer } from './toastSlice';
+import './favoritesApi/favoritesApi';
 
 export const store = configureStore({
   reducer: {

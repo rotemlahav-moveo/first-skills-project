@@ -4,7 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { CartModule } from './cart/cart.module';
 import { ProductsModule } from './products/products.module';
-import { WishlistModule } from './wishlist/wishlist.module';
+import { FavoritesModule } from './favorites/favorites.module';
 
 @Module({
   imports: [
@@ -28,7 +28,7 @@ import { WishlistModule } from './wishlist/wishlist.module';
     AuthModule,
     ProductsModule,
     CartModule,
-    WishlistModule,
+    FavoritesModule,
   ],
 })
 export class AppModule {}

@@ -5,23 +5,21 @@ import { useCart } from '../cart/CartContext';
 import { SiteFooter } from '../home/components/SiteFooter';
 import { SiteHeader } from '../home/components/SiteHeader';
 import { useToast } from '../toast/useToast';
+import { pickDefaultSize } from '../favorites/defaultProductSize';
+import { useFavorites } from '../favorites/FavoritesContext';
 import { ProductDescriptionSection } from './sections/ProductDescriptionSection';
 import { ProductMediaSection } from './sections/ProductMediaSection';
 import { ProductPurchaseSection } from './sections/ProductPurchaseSection';
-
-function fallbackSize(sizes: string[]): string {
-  const preferredSize = sizes.find((size) => size === 'M');
-  return preferredSize ?? sizes[0] ?? 'M';
-}
 
 export function ProductCardPage() {
   const { productId } = useParams<{ productId: string }>();
   const { addToCart } = useCart();
   const { showSuccess } = useToast();
+  const { isFavorite, toggleProduct } = useFavorites();
   const { data: product, isLoading, isError } = useGetProductByIdQuery(productId ?? '', {
     skip: !productId,
   });
-  const defaultSize = useMemo(() => fallbackSize(product?.sizes ?? []), [product?.sizes]);
+  const defaultSize = useMemo(() => pickDefaultSize(product?.sizes ?? []), [product?.sizes]);
   const [selectedSize, setSelectedSize] = useState<string>('');
   const [quantity, setQuantity] = useState(1);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
@@ -76,6 +74,8 @@ export function ProductCardPage() {
                   selectedSize={activeSize}
                   quantity={quantity}
                   isAddingToCart={isAddingToCart}
+                  isFavorite={isFavorite(product.productId)}
+                  onToggleFavorite={() => toggleProduct(product)}
                   onSelectSize={setSelectedSize}
                   onDecreaseQuantity={() => setQuantity((current) => Math.max(1, current - 1))}
                   onIncreaseQuantity={() => setQuantity((current) => current + 1)}

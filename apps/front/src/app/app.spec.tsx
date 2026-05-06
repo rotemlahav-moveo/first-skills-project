@@ -1,18 +1,25 @@
 import { render } from '@testing-library/react';
 import { type ReactElement } from 'react';
+import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 
 import { AuthProvider } from './auth/AuthContext';
 import { CartProvider } from './cart/CartContext';
+import { FavoritesProvider } from './favorites/FavoritesContext';
+import { store } from '../redux/store';
 import App from './app';
 
 function renderWithProviders(ui: ReactElement) {
   return render(
-    <BrowserRouter>
-      <AuthProvider>
-        <CartProvider>{ui}</CartProvider>
-      </AuthProvider>
-    </BrowserRouter>,
+    <Provider store={store}>
+      <BrowserRouter>
+        <AuthProvider>
+        <FavoritesProvider>
+          <CartProvider>{ui}</CartProvider>
+        </FavoritesProvider>
+        </AuthProvider>
+      </BrowserRouter>
+    </Provider>,
   );
 }
 

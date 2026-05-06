@@ -5,6 +5,7 @@ import type { StringValue } from 'ms';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthController } from './controllers/auth.controller';
 import { UserEntity } from './entities/user.entity';
+import { JwtAccessGuard } from './guards/jwt-access.guard';
 import { AuthService } from './services/auth.service';
 
 @Module({
@@ -23,6 +24,7 @@ import { AuthService } from './services/auth.service';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService],
+  providers: [AuthService, JwtAccessGuard],
+  exports: [JwtModule, JwtAccessGuard],
 })
 export class AuthModule {}
