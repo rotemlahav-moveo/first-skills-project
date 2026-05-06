@@ -7,8 +7,7 @@ RUN npm ci
 COPY . .
 
 # Build backend bundle and generate pruned runtime manifests.
-RUN npx nx build backend && npx nx run backend:prune
-
+RUN npx nx build backend
 FROM node:20-alpine AS runtime
 WORKDIR /app
 ENV NODE_ENV=production
