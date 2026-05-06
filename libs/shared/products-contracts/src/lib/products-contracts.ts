@@ -43,3 +43,13 @@ export type ProductDto = {
   imageUrl: string;
   createdAt: string;
 };
+
+export type PaginatedResultDto<TItem> = {
+  items: TItem[];
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+};
+
+export type ProductsListResultDto = PaginatedResultDto<ProductDto>;

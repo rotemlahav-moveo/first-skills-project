@@ -2,6 +2,7 @@ import { Controller, Get, NotFoundException, Param, Query } from '@nestjs/common
 import {
   type DepartmentDetailsDto,
   type ProductDto,
+  type ProductsListResultDto,
 } from '../../../../../../libs/shared/products-contracts/src';
 import { parseProductListQuery } from '../dto/parse-product-list-query';
 import { Department } from '../entities/department.entity';
@@ -19,10 +20,13 @@ export class ProductsController {
   }
 
   @Get()
-  async findAll(@Query() raw: Record<string, unknown>): Promise<ProductDto[]> {
-    const filters = parseProductListQuery(raw); 
-    const products = await this.productsService.findAll(filters); 
-    return products.map((product) => this.toProductDto(product));
+  async findAll(@Query() raw: Record<string, unknown>): Promise<ProductsListResultDto> {
+    const filters = parseProductListQuery(raw);
+    const result = await this.productsService.findAll(filters);
+    return {
+      ...result,
+      items: result.items.map((product) => this.toProductDto(product)),
+    };
   }
 
   @Get(':productId')

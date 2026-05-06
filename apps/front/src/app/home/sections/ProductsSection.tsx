@@ -8,8 +8,11 @@ import { SectionHeading } from '../components/SectionHeading';
 const FEATURED_LIMIT = 4;
 
 export function ProductsSection() {
-  const { data: products, isLoading, isError } = useGetProductsQuery();
-  const featuredProducts = useMemo(() => (products ?? []).slice(0, FEATURED_LIMIT), [products]);
+  const { data: productsResult, isLoading, isError } = useGetProductsQuery();
+  const featuredProducts = useMemo(
+    () => (productsResult?.items ?? []).slice(0, FEATURED_LIMIT),
+    [productsResult],
+  );
 
   return (
     <section className="border-b border-gray-300 py-16 md:py-24" id="featured-products" aria-labelledby="products-title">

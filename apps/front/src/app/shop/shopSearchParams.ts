@@ -1,5 +1,6 @@
 import {
   PRODUCT_LIST_SORT_VALUES,
+  parsePositiveInt,
   type ProductListSort,
   type ProductsListQueryArgs,
 } from '@shared/products-contracts';
@@ -30,6 +31,8 @@ export function parseUrlToApiArgs(searchParams: URLSearchParams): ProductsListQu
   return {
     department: department ? department : undefined,
     sort: parseSort(searchParams.get('sort')),
+    page: parsePositiveInt(searchParams.get('page')),
+    limit: parsePositiveInt(searchParams.get('limit')),
     category: nonempty(searchParams.getAll('category')),
     size: nonempty(searchParams.getAll('size')),
     color: nonempty(searchParams.getAll('color')),
@@ -75,6 +78,8 @@ export function mapFormToApiArgs(
 export function mapFormToUrl(
   formValues: ShopFiltersFormInput,
   department: string | null | undefined,
+  page?: number,
+  limit?: number,
 ): URLSearchParams {
   const args = mapFormToApiArgs(formValues, department);
   const params = new URLSearchParams();
@@ -84,6 +89,12 @@ export function mapFormToUrl(
   }
   if (args.sort) {
     params.set('sort', args.sort);
+  }
+  if (page && page > 1) {
+    params.set('page', String(page));
+  }
+  if (limit && limit > 0) {
+    params.set('limit', String(limit));
   }
   for (const value of args.category ?? []) {
     params.append('category', value);
@@ -103,13 +114,23 @@ export function mapFormToUrl(
 
   return params;
 }
+
+// withoutPagination is a helper function to remove the page and limit from the products list args
+// this is used to compare the search params and the form values
+// to avoid unnecessary ui updates when the page and limit are changed and not the filters
+type NonPaginationProductsListQueryArgs = Omit<ProductsListQueryArgs, 'page' | 'limit'>;
+
+function withoutPagination(args: ProductsListQueryArgs): NonPaginationProductsListQueryArgs {
+  const { page: _page, limit: _limit, ...rest } = args;
+  return rest;
+}
 /** True when URL and form describe the same list query (including department). */
 export function shopListQueriesEquivalent(
   searchParams: URLSearchParams,
   formValues: ShopFiltersFormInput,
   department: string | null | undefined,
 ): boolean {
-  const fromUrl = parseUrlToApiArgs(searchParams);
+  const fromUrl = withoutPagination(parseUrlToApiArgs(searchParams));
   const fromForm = mapFormToApiArgs(formValues, department);
   return JSON.stringify(fromUrl) === JSON.stringify(fromForm);
 }

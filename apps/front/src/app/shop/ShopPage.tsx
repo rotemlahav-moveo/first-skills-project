@@ -40,14 +40,18 @@ export function ShopPage() {
     const args = parseUrlToApiArgs(new URLSearchParams(searchParamsKey));
     return Object.keys(args).length > 0 ? args : undefined;
   }, [searchParamsKey]);
+  const currentPage = productsListArgs?.page ?? 1;
+  const currentLimit = productsListArgs?.limit ?? 20;
 
   const formSnapshot = useMemo(
     () => parseUrlToForm(new URLSearchParams(searchParamsKey)),
     [searchParamsKey],
   );
 
-  const { data: productDtos, isLoading, isError } = useGetProductsQuery(productsListArgs);
-  const products = useMemo(() => productDtos ?? [], [productDtos]);
+  const { data: productsResult, isLoading, isError } = useGetProductsQuery(productsListArgs);
+  const products = useMemo(() => productsResult?.items ?? [], [productsResult]);
+  const totalPages = productsResult?.totalPages ?? 1;
+  const totalProducts = productsResult?.total ?? 0;
 
   // creating the form with the default values from formSnapshot
   const { control, watch, reset, setValue } = useForm<
@@ -75,10 +79,10 @@ export function ShopPage() {
       if (shopListQueriesEquivalent(currentParams, parsed.data, dept)) {
         return;
       }
-      setSearchParams(mapFormToUrl(parsed.data, dept), { replace: true });
+      setSearchParams(mapFormToUrl(parsed.data, dept, 1, currentLimit), { replace: true });
     });
     return () => sub.unsubscribe();
-  }, [watch, setSearchParams]);
+  }, [watch, setSearchParams, currentLimit]);
 
   const clearFilters = useCallback(() => {
     setValue('filters', defaultShopFiltersFormValues.filters);
@@ -96,6 +100,26 @@ export function ShopPage() {
       });
     },
     [addToCart],
+  );
+
+  const handlePageChange = useCallback(
+    (nextPage: number) => {
+      const page = Math.max(1, Math.min(nextPage, totalPages));
+      if (page === currentPage) {
+        return;
+      }
+      const nextParams = new URLSearchParams(searchParamsRef.current);
+      if (page > 1) {
+        nextParams.set('page', String(page));
+      } else {
+        nextParams.delete('page');
+      }
+      if (currentLimit > 0) {
+        nextParams.set('limit', String(currentLimit));
+      }
+      setSearchParams(nextParams, { replace: false });
+    },
+    [currentLimit, currentPage, setSearchParams, totalPages],
   );
 
   return (
@@ -122,7 +146,14 @@ export function ShopPage() {
               ) : isError ? (
                 <p className="py-12 text-center text-sm text-red-600">Failed to load products.</p>
               ) : (
-                <ShopProductsSection products={products} onAddToCart={handleAddToCart} />
+                <ShopProductsSection
+                  products={products}
+                  totalProducts={totalProducts}
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={handlePageChange}
+                  onAddToCart={handleAddToCart}
+                />
               )}
             </div>
           </div>
