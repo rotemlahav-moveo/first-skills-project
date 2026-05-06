@@ -1,11 +1,11 @@
 import type {
   DepartmentDetailsDto,
   ProductDto,
+  ProductsListQueryArgs,
 } from '@shared/products-contracts';
 
 import { baseApi } from '../baseApi';
 
-// if there is a department, filter the products by the department ( GET /products?department=men )
 export const productsApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getDepartments: builder.query<DepartmentDetailsDto[], void>({
@@ -14,11 +14,11 @@ export const productsApi = baseApi.injectEndpoints({
         method: 'GET',
       }),
     }),
-    getProducts: builder.query<ProductDto[], { department?: string } | void>({
+    getProducts: builder.query<ProductDto[], ProductsListQueryArgs | void>({
       query: (args) => ({
         url: '/products',
         method: 'GET',
-        params: args?.department ? { department: args.department } : undefined,
+        params: args ?? undefined,
       }),
     }),
     getProductById: builder.query<ProductDto, string>({

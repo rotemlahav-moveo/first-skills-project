@@ -1,6 +1,6 @@
 import { FormFieldKind, type FormFieldConfig } from '@shared/form-system';
 import type { ShopFiltersFormInput } from './formSchema';
-import { FilterSectionTitle, SortOption, type FilterSelections } from './types';
+import { FilterSectionTitle, SortOption } from './types';
 
 type FilterSectionConfig = {
   title: FilterSectionTitle;
@@ -86,16 +86,3 @@ export const shopSortFieldConfigs: FormFieldConfig<ShopFiltersFormInput>[] = [
     labelClassName: 'sr-only',
   },
 ];
-
-// Convert RHF filter object into the domain shape used by `filterProducts`.
-// Empty arrays are removed to keep selections compact.
-export function toFilterSelections(filters: ShopFiltersFormInput['filters']): FilterSelections {
-  const entries = Object.entries(filters) as [FilterSectionTitle, string[] | undefined][];
-  return entries.reduce<FilterSelections>((result, [section, options]) => {
-    const nextOptions = options ?? [];
-    if (nextOptions.length > 0) {
-      result[section] = nextOptions;
-    }
-    return result;
-  }, {});
-}

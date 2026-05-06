@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useSearchParams } from 'react-router-dom';
@@ -6,19 +6,22 @@ import { useGetProductsQuery } from '../../redux/productsApi/productsApi';
 import { SiteFooter } from '../home/components/SiteFooter';
 import { SiteHeader } from '../home/components/SiteHeader';
 import { useCart } from '../cart/CartContext';
-import { filterProducts, sortProducts } from './filterProducts';
-import {
-  defaultShopFiltersFormValues,
-  toFilterSelections,
-} from './formConfig';
+import { defaultShopFiltersFormValues } from './formConfig';
 import { shopFiltersFormSchema, type ShopFiltersFormInput, type ShopFiltersFormValues } from './formSchema';
 import { ShopFiltersPanel } from './components/ShopFiltersPanel';
 import { ShopPageHeaderSection } from './sections/ShopPageHeaderSection';
 import { ShopProductsSection } from './sections/ShopProductsSection';
+import {
+  mapFormToUrl,
+  parseUrlToApiArgs,
+  parseUrlToForm,
+  shopListQueriesEquivalent,
+} from './shopSearchParams';
 import type { ShopProduct } from './types';
 
 const pageTitle = 'All Products';
 
+// defaultSizeForCart is a helper function to get the default size for a product
 function defaultSizeForCart(product: ShopProduct): string {
   const preferred = product.sizes.find((size) => size === 'M');
   return preferred ?? product.sizes[0] ?? 'M';
@@ -26,23 +29,56 @@ function defaultSizeForCart(product: ShopProduct): string {
 
 export function ShopPage() {
   const { addToCart } = useCart();
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [showMobileFilters, setShowMobileFilters] = useState(false);
-  const requestedDepartment = searchParams.get('department');
-  const department = requestedDepartment?.trim().toLowerCase() || undefined;
-  const { data: productDtos, isLoading, isError } = useGetProductsQuery(
-    department ? { department } : undefined,
+  const searchParamsRef = useRef(searchParams); // useRef to store the search params in a ref to avoid re-rendering the component unnecessarily
+  searchParamsRef.current = searchParams;
+
+  // convert the search params to a strig and convert it to a URLSearchParams object
+  const searchParamsKey = searchParams.toString();
+  const productsListArgs = useMemo(() => {
+    const args = parseUrlToApiArgs(new URLSearchParams(searchParamsKey));
+    return Object.keys(args).length > 0 ? args : undefined;
+  }, [searchParamsKey]);
+
+  const formSnapshot = useMemo(
+    () => parseUrlToForm(new URLSearchParams(searchParamsKey)),
+    [searchParamsKey],
   );
+
+  const { data: productDtos, isLoading, isError } = useGetProductsQuery(productsListArgs);
   const products = useMemo(() => productDtos ?? [], [productDtos]);
-  const { control, watch, setValue } = useForm<ShopFiltersFormInput, undefined, ShopFiltersFormValues>({
+
+  // creating the form with the default values from formSnapshot
+  const { control, watch, reset, setValue } = useForm<
+    ShopFiltersFormInput,
+    undefined,
+    ShopFiltersFormValues
+  >({
     resolver: zodResolver(shopFiltersFormSchema),
-    defaultValues: defaultShopFiltersFormValues,
+    defaultValues: formSnapshot, // set the default values for the form from the search params
   });
-  const sort = watch('sort');
-  const filters = watch('filters');
-  const selections = toFilterSelections(filters);
-  const filtered = filterProducts(products, selections);
-  const sortedProducts = sortProducts(filtered, sort);
+
+  useEffect(() => {
+    reset(formSnapshot);
+  }, [formSnapshot, reset]);
+
+  // sync the form values with the search params when the form values change
+  useEffect(() => {
+    const sub = watch((raw) => {
+      const parsed = shopFiltersFormSchema.safeParse(raw);
+      if (!parsed.success) {
+        return;
+      }
+      const currentParams = searchParamsRef.current;
+      const dept = currentParams.get('department')?.trim().toLowerCase() || undefined;
+      if (shopListQueriesEquivalent(currentParams, parsed.data, dept)) {
+        return;
+      }
+      setSearchParams(mapFormToUrl(parsed.data, dept), { replace: true });
+    });
+    return () => sub.unsubscribe();
+  }, [watch, setSearchParams]);
 
   const clearFilters = useCallback(() => {
     setValue('filters', defaultShopFiltersFormValues.filters);
@@ -76,10 +112,7 @@ export function ShopPage() {
           <div className="flex gap-8">
             <aside className="hidden w-64 shrink-0 lg:block">
               <div className="sticky top-24">
-                <ShopFiltersPanel
-                  control={control}
-                  onClearAll={clearFilters}
-                />
+                <ShopFiltersPanel control={control} onClearAll={clearFilters} />
               </div>
             </aside>
 
@@ -89,7 +122,7 @@ export function ShopPage() {
               ) : isError ? (
                 <p className="py-12 text-center text-sm text-red-600">Failed to load products.</p>
               ) : (
-                <ShopProductsSection products={sortedProducts} onAddToCart={handleAddToCart} />
+                <ShopProductsSection products={products} onAddToCart={handleAddToCart} />
               )}
             </div>
           </div>
@@ -118,10 +151,7 @@ export function ShopPage() {
                     Close
                   </button>
                 </div>
-                <ShopFiltersPanel
-                  control={control}
-                  onClearAll={clearFilters}
-                />
+                <ShopFiltersPanel control={control} onClearAll={clearFilters} />
               </div>
             </div>
           </div>
