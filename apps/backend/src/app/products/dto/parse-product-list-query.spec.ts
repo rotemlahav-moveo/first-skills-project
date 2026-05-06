@@ -26,6 +26,18 @@ describe('parseProductListQuery', () => {
     });
   });
 
+  it('splits comma-separated multi filters into arrays', () => {
+    expect(
+      parseProductListQuery({
+        category: 'Tops,Bottoms',
+        color: 'Black,White',
+      }),
+    ).toEqual({
+      category: ['Tops', 'Bottoms'],
+      color: ['Black', 'White'],
+    });
+  });
+
   it('parses pagination and drops invalid values', () => {
     expect(parseProductListQuery({ page: '2', limit: '24' })).toEqual({ page: 2, limit: 24 });
     expect(parseProductListQuery({ page: '0', limit: '-1' })).toEqual({});

@@ -1,6 +1,7 @@
 import type {
   DepartmentDetailsDto,
   ProductDto,
+  ProductsListResultDto,
   ProductsListQueryArgs,
 } from '@shared/products-contracts';
 
@@ -14,7 +15,7 @@ export const productsApi = baseApi.injectEndpoints({
         method: 'GET',
       }),
     }),
-    getProducts: builder.query<ProductDto[], ProductsListQueryArgs | void>({
+    getProducts: builder.query<ProductsListResultDto, ProductsListQueryArgs | void>({
       query: (args) => ({
         url: '/products',
         method: 'GET',

@@ -11,7 +11,7 @@ type FilterSectionConfig = {
 export const filterSections: FilterSectionConfig[] = [
   {
     title: FilterSectionTitle.Category,
-    options: ['Tops', 'Bottoms', 'Dresses', 'Outerwear', 'Shoes'],
+    options: ['Tops', 'Bottoms', 'Dresses', 'Outwear', 'Shoes'],
   },
   {
     title: FilterSectionTitle.Size,
@@ -27,7 +27,21 @@ export const filterSections: FilterSectionConfig[] = [
   },
   {
     title: FilterSectionTitle.Brand,
-    options: ['Brand A', 'Brand B', 'Brand C', 'Brand D'],
+    options: [
+      'Urban Basics',
+      'North Tailor',
+      'Pulse',
+      'Denim Co',
+      'StreetForm',
+      'Coastline',
+      'Rebel Wear',
+      'Stride',
+      'Bloom & Co',
+      'CityLine',
+      'Élan',
+      'CarryAll',
+      'TimeCraft',
+    ],
   },
 ];
 

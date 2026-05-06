@@ -19,8 +19,30 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:3000
 const SESSION_EXPIRED_ERROR = 'Session expired. Please sign in again.';
 const AUTH_EXCLUDED_PATHS = new Set(['/auth/login', '/auth/signup', '/auth/refresh']);
 
+function serializeQueryParams(params: Record<string, unknown>): string {
+  const searchParams = new URLSearchParams();
+
+  for (const [key, value] of Object.entries(params)) {
+    if (value === undefined || value === null) {
+      continue;
+    }
+    if (Array.isArray(value)) {
+      for (const item of value) {
+        if (item !== undefined && item !== null) {
+          searchParams.append(key, String(item));
+        }
+      }
+      continue;
+    }
+    searchParams.append(key, String(value));
+  }
+
+  return searchParams.toString();
+}
+
 const rawBaseQuery = fetchBaseQuery({
   baseUrl: API_BASE_URL,
+  paramsSerializer: serializeQueryParams,
   prepareHeaders: (headers) => {
     headers.set('Content-Type', 'application/json');
     const token = getAccessToken();

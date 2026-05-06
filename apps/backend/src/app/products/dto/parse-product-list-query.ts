@@ -1,5 +1,6 @@
 import {
   PRODUCT_LIST_SORT_VALUES,
+  parsePositiveInt,
   type ProductListSort,
   type ProductsListQueryArgs,
 } from '../../../../../../libs/shared/products-contracts/src';
@@ -8,31 +9,21 @@ function normalizeMulti(value: unknown): string[] | undefined {
   if (value === undefined || value === null) {
     return undefined;
   }
-  if (Array.isArray(value)) {
-    const values = value
-      .filter((item): item is string => typeof item === 'string')
+  const splitAndNormalize = (rawValues: string[]): string[] => {
+    return rawValues
+      .flatMap((item) => item.split(','))
       .map((item) => item.trim())
       .filter((item) => item.length > 0);
+  };
+  if (Array.isArray(value)) {
+    const values = splitAndNormalize(value.filter((item): item is string => typeof item === 'string'));
     return values.length > 0 ? values : undefined;
   }
   if (typeof value === 'string') {
-    const trimmed = value.trim();
-    return trimmed.length > 0 ? [trimmed] : undefined;
+    const values = splitAndNormalize([value]);
+    return values.length > 0 ? values : undefined;
   }
   return undefined;
-}
-
-// parsePositiveInt is a helper function to parse a positive integer from a value (page and limit for pagination)
-function parsePositiveInt(value: unknown): number | undefined {
-  const raw = Array.isArray(value) ? value[0] : value;
-  if (typeof raw !== 'string' && typeof raw !== 'number') {
-    return undefined;
-  }
-  const parsed = Number(raw);
-  if (!Number.isInteger(parsed) || parsed < 1) {
-    return undefined;
-  }
-  return parsed;
 }
 
 function parseSort(value: unknown): ProductListSort | undefined {
