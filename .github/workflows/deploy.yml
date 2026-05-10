@@ -5,39 +5,59 @@ on:
     branches: [main]
 
 jobs:
-  deploy:
-    runs-on: [self-hosted, Linux, X64]
+  build:
+    runs-on: ubuntu-latest
+
+    outputs:
+      artifact-name: build-artifact
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
       - name: Install dependencies
         run: npm ci
 
-      # ---------- Build Backend ----------
       - name: Build backend
         run: npx nx build backend
 
-      # ---------- Build Frontend ----------
       - name: Build frontend
         run: |
           echo "VITE_API_BASE_URL=/api" > apps/front/.env.production
           npx vite build --config apps/front/vite.config.mts
 
-      # ---------- Deploy Backend ----------
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: self-hosted
+
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build
+          path: dist
+
       - name: Restart backend (PM2)
         run: |
           pm2 delete snapstyle-backend || true
           pm2 start dist/apps/backend/main.js --name snapstyle-backend
           pm2 save
 
-      # ---------- Deploy Frontend ----------
-      - name: Deploy frontend to Nginx
+      - name: Deploy frontend
         run: |
           sudo rm -rf /var/www/snapstyle/*
           sudo cp -r dist/front/* /var/www/snapstyle/
 
-      # ---------- Reload Nginx ----------
-      - name: Reload Nginx
+      - name: Reload nginx
         run: sudo systemctl reload nginx
