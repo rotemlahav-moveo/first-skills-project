@@ -37,19 +37,20 @@ jobs:
           name: build
           path: dist
 
-  deploy:
+    deploy:
     needs: build
-    runs-on: self-hosted
+    runs-on: [self-hosted, Linux, X64]
 
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
           name: build
-          path: dist
+          path: /home/ubuntu/first-skills-project/dist
 
       - name: Restart backend (PM2)
         run: |
+          cd /home/ubuntu/first-skills-project
           pm2 delete snapstyle-backend || true
           pm2 start dist/apps/backend/main.js --name snapstyle-backend
           pm2 save
@@ -57,7 +58,7 @@ jobs:
       - name: Deploy frontend
         run: |
           sudo rm -rf /var/www/snapstyle/*
-          sudo cp -r dist/front/* /var/www/snapstyle/
+          sudo cp -r /home/ubuntu/first-skills-project/dist/front/* /var/www/snapstyle/
 
       - name: Reload nginx
         run: sudo systemctl reload nginx
