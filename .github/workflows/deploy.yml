@@ -1,0 +1,43 @@
+name: Deploy Snapstyle
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: npm ci
+
+      # ---------- Build Backend ----------
+      - name: Build backend
+        run: npx nx build backend
+
+      # ---------- Build Frontend ----------
+      - name: Build frontend
+        run: |
+          echo "VITE_API_BASE_URL=/api" > apps/front/.env.production
+          npx vite build --config apps/front/vite.config.mts
+
+      # ---------- Deploy Backend ----------
+      - name: Restart backend (PM2)
+        run: |
+          pm2 delete snapstyle-backend || true
+          pm2 start dist/apps/backend/main.js --name snapstyle-backend
+          pm2 save
+
+      # ---------- Deploy Frontend ----------
+      - name: Deploy frontend to Nginx
+        run: |
+          sudo rm -rf /var/www/snapstyle/*
+          sudo cp -r dist/front/* /var/www/snapstyle/
+
+      # ---------- Reload Nginx ----------
+      - name: Reload Nginx
+        run: sudo systemctl reload nginx
