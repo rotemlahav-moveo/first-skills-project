@@ -51,6 +51,10 @@ export default defineConfig(({ mode }) => {
           import.meta.dirname,
           '../../libs/shared/checkout-contracts/src/index.ts',
         ),
+        '@shared/cart-contracts': path.resolve(
+          import.meta.dirname,
+          '../../libs/shared/cart-contracts/src/index.ts',
+        ),
       },
     },
     build: {

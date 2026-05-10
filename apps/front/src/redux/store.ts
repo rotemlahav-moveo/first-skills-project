@@ -7,6 +7,7 @@ import './productsApi/productsApi';
 import { toastReducer } from './toastSlice';
 import './favoritesApi/favoritesApi';
 import './checkoutApi/checkoutApi';
+import './cartApi/cartApi';
 
 export const store = configureStore({
   reducer: {

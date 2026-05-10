@@ -7,6 +7,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Order } from '../../cart/entities/order.entity';
+import { SavedCartLine } from '../../cart/entities/saved-cart-line.entity';
 import { Favorite } from '../../favorites/entities/favorite.entity';
 
 @Entity({ name: 'users' }) //users is the name of the table in the database
@@ -37,4 +38,7 @@ export class UserEntity {
 
   @OneToMany(() => Favorite, (favorite) => favorite.user)
   favoriteItems!: Favorite[];
+
+  @OneToMany(() => SavedCartLine, (line) => line.user)
+  savedCartLines!: SavedCartLine[];
 }
