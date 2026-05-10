@@ -1,5 +1,4 @@
 import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from 'react';
-import { INITIAL_CART_ITEMS } from './mockCart';
 import type { AddToCartInput, CartItem } from './types';
 
 type CartContextValue = {
@@ -17,7 +16,7 @@ type CartProviderProps = {
 };
 
 export function CartProvider({ children }: CartProviderProps) {
-  const [cartItems, setCartItems] = useState<CartItem[]>(INITIAL_CART_ITEMS);
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
   const removeItem = useCallback((itemId: string) => {
     setCartItems((currentItems) => currentItems.filter((item) => item.id !== itemId));

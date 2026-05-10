@@ -15,17 +15,14 @@ export function SiteFooter() {
           <div>
             <h3 className="mb-4 text-gray-900">Shop</h3>
             <nav className="flex flex-col gap-3">
-              <Link to="/shop/women" className="text-sm text-gray-600 hover:text-gray-900">
+              <Link to="/shop?department=women" className="text-sm text-gray-600 hover:text-gray-900">
                 Women
               </Link>
-              <Link to="/shop/men" className="text-sm text-gray-600 hover:text-gray-900">
+              <Link to="/shop?department=men" className="text-sm text-gray-600 hover:text-gray-900">
                 Men
               </Link>
-              <Link to="/shop/accessories" className="text-sm text-gray-600 hover:text-gray-900">
+              <Link to="/shop?department=accessories" className="text-sm text-gray-600 hover:text-gray-900">
                 Accessories
-              </Link>
-              <Link to="/shop/sale" className="text-sm text-gray-600 hover:text-gray-900">
-                Sale
               </Link>
             </nav>
           </div>
