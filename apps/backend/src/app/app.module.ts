@@ -22,7 +22,7 @@ import { FavoritesModule } from './favorites/favorites.module';
         password: config.get<string>('DB_PASSWORD', 'snap_style'),
         database: config.get<string>('DB_NAME', 'snapStyle_db'),
         autoLoadEntities: true,
-        synchronize: true,
+        synchronize: config.get<string>('DB_SYNCHRONIZE', 'true') !== 'false',
       }),
     }),
     AuthModule,

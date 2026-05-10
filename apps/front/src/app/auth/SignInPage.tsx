@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { GenericFormInput } from '@shared/form-system';
 
 import { getErrorMessage, useLoginMutation } from '../../redux/authApi/authApi';
@@ -10,9 +10,14 @@ import { AuthFormCard } from './components/AuthFormCard';
 import { AuthLayout } from './components/AuthLayout';
 import { signInFields } from './formConfig';
 import { signInSchema, type SignInFormValues } from './formSchema';
+import { ROUTES } from '../routes';
+
+type SignInLocationState = { from?: string };
 
 export function SignInPage() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = (location.state as SignInLocationState | null)?.from ?? ROUTES.HOME;
   const { setSession } = useAuth();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [login, { isLoading: isLoginLoading }] = useLoginMutation();
@@ -34,7 +39,7 @@ export function SignInPage() {
     try {
       const authResponse = await login(values).unwrap();
       setSession(authResponse);
-      navigate('/');
+      navigate(from, { replace: true });
     } catch (error) {
       setErrorMessage(getErrorMessage(error));
     }

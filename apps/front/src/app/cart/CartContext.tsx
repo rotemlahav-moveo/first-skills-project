@@ -1,4 +1,13 @@
-import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from 'react';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+  type ReactNode,
+} from 'react';
+import { readCartFromStorage, writeCartToStorage } from './cartStorage';
 import type { AddToCartInput, CartItem } from './types';
 
 type CartContextValue = {
@@ -7,6 +16,7 @@ type CartContextValue = {
   removeItem: (itemId: string) => void;
   increaseQuantity: (itemId: string) => void;
   decreaseQuantity: (itemId: string) => void;
+  clearCart: () => void;
 };
 
 const CartContext = createContext<CartContextValue | null>(null);
@@ -16,7 +26,11 @@ type CartProviderProps = {
 };
 
 export function CartProvider({ children }: CartProviderProps) {
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [cartItems, setCartItems] = useState<CartItem[]>(() => readCartFromStorage());
+
+  useEffect(() => {
+    writeCartToStorage(cartItems);
+  }, [cartItems]);
 
   const removeItem = useCallback((itemId: string) => {
     setCartItems((currentItems) => currentItems.filter((item) => item.id !== itemId));
@@ -80,6 +94,10 @@ export function CartProvider({ children }: CartProviderProps) {
     [],
   );
 
+  const clearCart = useCallback(() => {
+    setCartItems([]);
+  }, []);
+
   const value = useMemo(
     () => ({
       cartItems,
@@ -87,8 +105,9 @@ export function CartProvider({ children }: CartProviderProps) {
       removeItem,
       increaseQuantity,
       decreaseQuantity,
+      clearCart,
     }),
-    [cartItems, addToCart, removeItem, increaseQuantity, decreaseQuantity],
+    [cartItems, addToCart, removeItem, increaseQuantity, decreaseQuantity, clearCart],
   );
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
