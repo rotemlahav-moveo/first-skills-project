@@ -1,7 +1,7 @@
 # Department-Based Product Filtering - Shaping Notes
 
 ## Scope
-Add a `departments` table for `men`, `woman`, and `accessories`, assign each product to exactly one department, and let frontend home sections request only products from the selected department.
+Add a `departments` table for `men`, `women`, and `accessories`, assign each product to exactly one department, and let frontend home sections request only products from the selected department.
 
 ## Decisions
 - Product belongs to one department (`ManyToOne` from product to department).

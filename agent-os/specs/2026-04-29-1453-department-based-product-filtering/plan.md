@@ -5,7 +5,7 @@ Implement single-department assignment per product and server-side filtering by 
 
 ## Scope Decisions
 - Product-to-department is **one-to-many** (each product has exactly one department).
-- Department values are fixed domain literals: `men`, `woman`, `accessories`.
+- Department values are fixed domain literals: `men`, `women`, `accessories`.
 - Frontend department filter target is **home sections**.
 - Keep alignment with product goals: faster discovery and clearer browsing.
 
