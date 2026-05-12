@@ -16,6 +16,7 @@ import { FAVORITES_MAX_ITEMS } from './constants';
 import { readFavoritesFromCookie, writeFavoritesToCookie } from './favoritesCookieStorage';
 import { mergeServerAndCookieFavorites } from './mergeFavorites';
 import type { FavoriteItem } from './types';
+import { isFavoritesInitialSyncDone, markFavoritesInitialSyncDone } from '../sync/initialGuestCookieMergeStorage';
 
 type FavoritesContextValue = {
   items: FavoriteItem[];
@@ -90,7 +91,12 @@ export function FavoritesProvider({ children }: FavoritesProviderProps) {
 
         if (previous !== null && previous !== uid) {
           next = server;
-        } else if (previous === null && server.length === 0 && cookieItems.length > 0) {
+        } else if (
+          previous === null &&
+          !isFavoritesInitialSyncDone(uid) &&
+          server.length === 0 &&
+          cookieItems.length > 0
+        ) {
           next = mergeServerAndCookieFavorites(server, cookieItems);
         } else {
           next = server;
@@ -99,6 +105,9 @@ export function FavoritesProvider({ children }: FavoritesProviderProps) {
         replaceLocal(next);
         await replaceFavorites({ productIds: next.map((item) => item.productId) }).unwrap();
         lastSyncedUserIdRef.current = uid;
+        if (previous === null) {
+          markFavoritesInitialSyncDone(uid);
+        }
       } catch {
         /* keep local; do not advance lastSyncedUserIdRef on failed GET */
       }

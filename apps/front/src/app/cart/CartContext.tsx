@@ -14,6 +14,7 @@ import { mergeServerAndCookieCart } from './mergeCart';
 import type { AddToCartInput, CartItem } from './types';
 import { useReplaceCartMutation, useLazyGetCartQuery } from '../../redux/cartApi/cartApi';
 import { useAuth } from '../auth/AuthContext';
+import { isCartInitialSyncDone, markCartInitialSyncDone } from '../sync/initialGuestCookieMergeStorage';
 
 function readInitialCartItems(): CartItem[] {
   return readCartFromCookie();
@@ -105,7 +106,12 @@ export function CartProvider({ children }: CartProviderProps) {
 
         if (previous !== null && previous !== uid) {
           next = server;
-        } else if (previous === null && server.length === 0 && cookieItems.length > 0) {
+        } else if (
+          previous === null &&
+          !isCartInitialSyncDone(uid) &&
+          server.length === 0 &&
+          cookieItems.length > 0
+        ) {
           next = mergeServerAndCookieCart(server, cookieItems);
         } else {
           next = server;
@@ -114,6 +120,9 @@ export function CartProvider({ children }: CartProviderProps) {
         replaceLocal(next);
         await replaceCart(cartToReplaceBody(next)).unwrap();
         lastSyncedUserIdRef.current = uid;
+        if (previous === null) {
+          markCartInitialSyncDone(uid);
+        }
       } catch {
         /* keep local */
       }
