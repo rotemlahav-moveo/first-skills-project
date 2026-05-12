@@ -39,6 +39,29 @@ jobs:
     runs-on: [self-hosted, Linux, X64]
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run database migrations
+        run: |
+          set -e
+          ENV_FILE=/home/ubuntu/first-skills-project/apps/backend/.env
+          if [ ! -f "$ENV_FILE" ]; then
+            echo "::error::Missing $ENV_FILE — migrations need production DB settings (create this file on the deploy host)."
+            exit 1
+          fi
+          mkdir -p apps/backend
+          cp "$ENV_FILE" apps/backend/.env
+          npm run db:migrate:backend
+
       - name: Clean old dist
         run: rm -rf /home/ubuntu/first-skills-project/dist
 
