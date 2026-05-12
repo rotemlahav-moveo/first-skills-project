@@ -15,7 +15,14 @@ import {
   persistAuthSession,
 } from '../app/auth/storage';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:3000/api';
+/**
+ * Browser dev: relative `/api` + Vite proxy to the Nest port.
+ * Production: CI sets `VITE_API_BASE_URL=/api` for same-origin nginx.
+ * Vitest: Node fetch needs an absolute URL.
+ */
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL ??
+  (import.meta.env.MODE === 'test' ? 'http://127.0.0.1:3000/api' : '/api');
 const SESSION_EXPIRED_ERROR = 'Session expired. Please sign in again.';
 const AUTH_EXCLUDED_PATHS = new Set(['/auth/login', '/auth/signup', '/auth/refresh']);
 

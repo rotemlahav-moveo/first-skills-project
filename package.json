@@ -2,6 +2,10 @@
   "name": "first-skills-project",
   "version": "0.0.0",
   "private": true,
+  "scripts": {
+    "db:migrate:backend": "npx typeorm-ts-node-commonjs migration:run -d ./apps/backend/src/data-source.ts",
+    "db:migration:revert:backend": "npx typeorm-ts-node-commonjs migration:revert -d ./apps/backend/src/data-source.ts"
+  },
   "devDependencies": {
     "@eslint/js": "^9.8.0",
     "@nestjs/schematics": "^11.0.0",
@@ -44,6 +48,7 @@
     "nx": "22.6.5",
     "prettier": "~3.6.2",
     "tailwindcss": "^4.2.2",
+    "ts-node": "^10.9.2",
     "tslib": "^2.3.0",
     "typescript": "~5.9.2",
     "typescript-eslint": "^8.40.0",
@@ -63,6 +68,7 @@
     "@reduxjs/toolkit": "^2.11.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "dotenv": "^16.6.1",
     "lucide-react": "^1.8.0",
     "pg": "^8.20.0",
     "react": "^19.0.0",

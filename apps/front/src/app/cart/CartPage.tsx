@@ -1,15 +1,28 @@
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronLeft } from 'lucide-react';
 import { SiteFooter } from '../home/components/SiteFooter';
 import { SiteHeader } from '../home/components/SiteHeader';
+import { useToast } from '../toast/useToast';
 import { useCart } from './CartContext';
 import { CartItemsSection } from './sections/CartItemsSection';
 import { CartSummarySection } from './sections/CartSummarySection';
 import { EmptyCartSection } from './sections/EmptyCartSection';
+import { useCheckoutCart } from './useCheckoutCart';
 
 export function CartPage() {
   const { cartItems, removeItem, increaseQuantity, decreaseQuantity } = useCart();
+  const { runCheckout, isCheckoutLoading } = useCheckoutCart();
+  const { showSuccess, showError } = useToast();
+
+  const onProceedToCheckout = useCallback(async () => {
+    const result = await runCheckout();
+    if (result.status === 'success') {
+      showSuccess('Thank you! Your order was placed.');
+    } else if (result.status === 'error') {
+      showError(result.message);
+    }
+  }, [runCheckout, showError, showSuccess]);
 
   const subtotal = useMemo(
     () => cartItems.reduce((total, item) => total + item.price * item.quantity, 0),
@@ -53,6 +66,9 @@ export function CartPage() {
                 shipping={shipping}
                 total={total}
                 totalItems={totalItems}
+                onProceedToCheckout={() => void onProceedToCheckout()}
+                checkoutDisabled={totalItems === 0}
+                isCheckoutLoading={isCheckoutLoading}
               />
             </div>
           )}

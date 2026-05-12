@@ -1,14 +1,8 @@
-export type CartItem = {
-  id: string;
-  name: string;
-  color: string;
-  size: string;
-  price: number;
-  quantity: number;
-  imageUrl: string;
-};
+import type { SavedCartItemDto } from '@shared/cart-contracts';
 
-//Payload for `addToCart`; quantity defaults to 1 in cart logic.
+export type CartItem = SavedCartItemDto;
+
+/** Payload for `addToCart`; quantity defaults to 1 in cart logic. */
 export type AddToCartInput = Omit<CartItem, 'quantity'> & {
   quantity?: number;
 };

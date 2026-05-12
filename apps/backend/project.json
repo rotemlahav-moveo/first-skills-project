@@ -64,7 +64,7 @@
     "test": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "vitest run apps/backend/src/app/auth/**/*.spec.ts apps/backend/src/app/favorites/**/*.spec.ts apps/backend/src/app/products/**/*.spec.ts",
+        "command": "vitest run --config apps/backend/vitest.config.mts apps/backend/src/app/auth/**/*.spec.ts apps/backend/src/app/cart/**/*.spec.ts apps/backend/src/app/favorites/**/*.spec.ts apps/backend/src/app/products/**/*.spec.ts",
         "cwd": "."
       }
     }

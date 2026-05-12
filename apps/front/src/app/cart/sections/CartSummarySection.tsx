@@ -9,9 +9,20 @@ type CartSummarySectionProps = {
   shipping: number;
   total: number;
   totalItems: number;
+  onProceedToCheckout: () => void;
+  checkoutDisabled: boolean;
+  isCheckoutLoading: boolean;
 };
 
-export function CartSummarySection({ subtotal, shipping, total, totalItems }: CartSummarySectionProps) {
+export function CartSummarySection({
+  subtotal,
+  shipping,
+  total,
+  totalItems,
+  onProceedToCheckout,
+  checkoutDisabled,
+  isCheckoutLoading,
+}: CartSummarySectionProps) {
   return (
     <section aria-labelledby="order-summary-heading">
       <Card className="sticky top-24">
@@ -41,8 +52,14 @@ export function CartSummarySection({ subtotal, shipping, total, totalItems }: Ca
             </div>
           </div>
 
-          <Button size="lg" className="h-12 w-full" onClick={() => undefined}>
-            Proceed to checkout <ArrowRight />
+          <Button
+            size="lg"
+            className="h-12 w-full"
+            type="button"
+            disabled={checkoutDisabled || isCheckoutLoading}
+            onClick={onProceedToCheckout}
+          >
+            {isCheckoutLoading ? 'Placing order…' : 'Proceed to checkout'} <ArrowRight />
           </Button>
           <Button asChild variant="outline" size="lg" className="h-12 w-full">
             <Link to="/">Continue shopping</Link>

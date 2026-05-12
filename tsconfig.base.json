@@ -19,7 +19,9 @@
       "@shared/auth-domain": ["libs/shared/auth-domain/src/index.ts"],
       "@shared/form-system": ["libs/shared/form-system/src/index.ts"],
       "@shared/products-contracts": ["libs/shared/products-contracts/src/index.ts"],
-      "@shared/favorites-contracts": ["libs/shared/favorites-contracts/src/index.ts"]
+      "@shared/favorites-contracts": ["libs/shared/favorites-contracts/src/index.ts"],
+      "@shared/checkout-contracts": ["libs/shared/checkout-contracts/src/index.ts"],
+      "@shared/cart-contracts": ["libs/shared/cart-contracts/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
