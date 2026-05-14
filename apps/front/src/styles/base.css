@@ -54,6 +54,12 @@ p {
   color: #475569;
 }
 
+#collections,
+#featured-products,
+#how-it-works {
+  scroll-margin-top: 5.5rem;
+}
+
 @layer base {
   body {
     @apply bg-background text-foreground;
